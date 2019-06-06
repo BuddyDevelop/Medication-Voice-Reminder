@@ -16,4 +16,25 @@
     <string name="bottom_nav_home">Home</string>
     <string name="bottom_nav_prescriptions">Prescriptions</string>
     <string name="bottom_nav_history">History</string>
+
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+
+
+    <string name="general_settings">General</string>
+    <string name="settings">Settings</string>
+    <string name="speak_notifications_settings">Speak notification</string>
+    <string name="text_to_speech_settings">Text to speech settings</string>
+
+    <string name="add_medication_reminder">Add medication reminder</string>
+    <string name="add_medication_btn">Add medication</string>
+
+
+    <string name="speak_notification_settings_title">Read application notification during this device state</string>
+    <string-array name="speak_notifications_settings_dialog">
+        <item>Screen On</item>
+        <item>Screen Off</item>
+        <item>Silent/Vibrate</item>
+    </string-array>
 </resources>
