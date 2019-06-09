@@ -5,4 +5,6 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorNavIcon">#dae9f6</color>
     <color name="colorNavText">#01294b</color>
+    <color name="lightBlue">#4CAFFF</color>
+    <color name="statusBarColor">@android:color/transparent</color>
 </resources>

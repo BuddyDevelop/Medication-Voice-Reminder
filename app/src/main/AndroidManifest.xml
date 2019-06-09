@@ -19,6 +19,11 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".AddMedicineActivity"
+            android:theme="@style/AppTheme.ActionBar.Transparent">
+        </activity>
+
     </application>
 </manifest>
     <!--android:theme="@style/Theme.Design.Light.NoActionBar">-->

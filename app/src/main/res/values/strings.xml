@@ -37,4 +37,33 @@
         <item>Screen Off</item>
         <item>Silent/Vibrate</item>
     </string-array>
+
+    <string name="add_medication_title">Add medication</string>
+    <string name="medication_name">Medication Name</string>
+    <string name="medication_days">Schedule</string>
+    <string name="medication_reminder">Medication Reminder</string>
+    <string name="every_day">Every day</string>
+    <string name="med_name_hint">Enter medication name</string>
+
+    <string-array name="medication_type_array">
+        <item>capsule(s)</item>
+        <item>cream(s)</item>
+        <item>dragee(s)</item>
+        <item>emulsion(s)</item>
+        <item>pack(s)</item>
+        <item>gel(s)</item>
+        <item>drop(s)</item>
+        <item>inhalation(s)</item>
+        <item>shot(s)</item>
+        <item>measure(s)</item>
+        <item>tablet(s)</item>
+        <item>powder(s)</item>
+        <item>ointment(s)</item>
+        <item>soap(s)</item>
+        <item>sachet(s)</item>
+        <item>unit(s)</item>
+        <item>spray(s)</item>
+        <item>suspension(s)</item>
+        <item>syrup(s)</item>
+    </string-array>
 </resources>

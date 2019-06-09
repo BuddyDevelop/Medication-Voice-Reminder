@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/cardview_light_background"
-    tools:showIn="@layout/activity_main"
-    tools:context="com.example.grzeiek.pracainzynierska.MainActivity">
+    android:background="@color/cardview_light_background">
+    <!--tools:showIn="@layout/activity_main"-->
+    <!--tools:context="com.example.grzeiek.pracainzynierska.MainActivity"-->
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
