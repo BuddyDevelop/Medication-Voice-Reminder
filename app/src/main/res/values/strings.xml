@@ -10,7 +10,6 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-
     <string name="action_settings">Settings</string>
     <string name="bottom_nav_medications">Medications</string>
     <string name="bottom_nav_home">Home</string>
@@ -21,7 +20,6 @@
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
 
-
     <string name="general_settings">General</string>
     <string name="settings">Settings</string>
     <string name="speak_notifications_settings">Speak notification</string>
@@ -29,7 +27,6 @@
 
     <string name="add_medication_reminder">Add medication reminder</string>
     <string name="add_medication_btn">Add medication</string>
-
 
     <string name="speak_notification_settings_title">Read application notification during this device state</string>
     <string-array name="speak_notifications_settings_dialog">
@@ -43,7 +40,7 @@
     <string name="medication_days">Schedule</string>
     <string name="medication_reminder">Medication Reminder</string>
     <string name="every_day">Every day</string>
-    <string name="med_name_hint">Enter medication name</string>
+    <string name="med_name_hint">Medication name</string>
 
     <string-array name="medication_type_array">
         <item>capsule(s)</item>
@@ -66,4 +63,8 @@
         <item>suspension(s)</item>
         <item>syrup(s)</item>
     </string-array>
+
+    <string name="err_msg_medication_name">Enter medication name</string>
+    <string name="err_msg_medication_schedule">Select at least one day</string>
+    <string name="err_msg_medication_dose">Dose must be greater than 0</string>
 </resources>

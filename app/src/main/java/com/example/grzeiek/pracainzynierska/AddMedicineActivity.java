@@ -1,19 +1,27 @@
 package com.example.grzeiek.pracainzynierska;
 
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.AppCompatSpinner;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.support.v7.widget.Toolbar;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import com.example.grzeiek.pracainzynierska.Database.DBManager;
 
 import java.util.Calendar;
 import java.util.List;
@@ -24,28 +32,45 @@ import ca.antonious.materialdaypicker.MaterialDayPicker;
 
 public class AddMedicineActivity extends AppCompatActivity{
 
+    private DBManager dbManager;
+
     private int hour, minute;
     private TextView medicationTime;
     private Button saveMedBtn;
     private EditText medName;
     private EditText medQuantity;
     private AppCompatSpinner medDoseUnit;
+    private MaterialDayPicker materialDayPicker;
+    private TextInputLayout dayPickerLayout, medNameLayout, medDoseLayout;
+
 
     @Override
     protected void onCreate( @Nullable Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
-        setContentView( R.layout.activity_add_medicine );
+        setContentView( R.layout.activity_add_medication );
+
+        dbManager = new DBManager( this );
 
 
+        //initialize variables
         final Toolbar toolbar = (Toolbar) findViewById( R.id.toolbar_add_medicine );
-        final MaterialDayPicker materialDayPicker = findViewById( R.id.dayPicker );
-        medicationTime = ( TextView ) findViewById( R.id.medicine_time );
         saveMedBtn = ( Button ) findViewById( R.id.save_med_btn );
         medName = ( EditText ) findViewById( R.id.med_name );
         medQuantity = ( EditText ) findViewById( R.id.dose_quantity );
         medDoseUnit = ( AppCompatSpinner ) findViewById( R.id.spinner_dose_units );
+        materialDayPicker = ( MaterialDayPicker )findViewById( R.id.dayPicker );
+        medicationTime = ( TextView ) findViewById( R.id.medicine_time );
+        //for handling errors
+        dayPickerLayout = ( TextInputLayout ) findViewById( R.id.dayPicker_layout );
+        medNameLayout = ( TextInputLayout ) findViewById( R.id.med_name_layout );
+        medDoseLayout = ( TextInputLayout ) findViewById( R.id.med_dose_layout );
 
 
+        medName.addTextChangedListener( new myTextWatcher( medName ) );
+        medQuantity.addTextChangedListener( new myTextWatcher( medQuantity ) );
+
+        //set current time in textView
+        setCurrentTime();
 
         //set toolbar
         toolbar.setTitle( getString( R.string.add_medication_title ) );
@@ -84,21 +109,101 @@ public class AddMedicineActivity extends AppCompatActivity{
         saveMedBtn.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
-                List<MaterialDayPicker.Weekday> weekdayList =  materialDayPicker.getSelectedDays();
-                String pillName = medName.getText().toString();
-                String dose = medQuantity.getText().toString();
-                String medUnit = medDoseUnit.getSelectedItem().toString();
-                for( int i = 0; i < weekdayList.size(); ++i ){
-                    Toast.makeText( AddMedicineActivity.this, "" + weekdayList.get( i ), Toast.LENGTH_SHORT ).show();
-                }
-                Toast.makeText( AddMedicineActivity.this, "" + pillName, Toast.LENGTH_SHORT ).show();
-                Toast.makeText( AddMedicineActivity.this, "" + dose, Toast.LENGTH_SHORT ).show();
-                Toast.makeText( AddMedicineActivity.this, "" + medUnit, Toast.LENGTH_SHORT ).show();
+            if( formValidation() ){
+                addMed();
+            }
             }
         } );
-
     }
 
+    private void addMed() {
+        String stringMedName = medName.getText().toString().trim();
+        String stringMedQuantity = medQuantity.getText().toString();
+        String time = hour + ":" + minute;
+        List<MaterialDayPicker.Weekday> weekdayList =  materialDayPicker.getSelectedDays();
+        String stringMedUnit = medDoseUnit.getSelectedItem().toString();
+
+        String stringMedDays = "";
+        for( int i = 0; i < weekdayList.size(); ++i )
+            stringMedDays += weekdayList.get( i ).toString() + " ";
+
+//        Toast.makeText( this, "" + stringMedDays, Toast.LENGTH_SHORT ).show();
+
+        long rowInserted = -1;
+
+        try {
+            dbManager.open();
+
+            if( !dbManager.reminderExists( stringMedName, time, stringMedUnit, stringMedDays ) ){
+                rowInserted = dbManager.insert( stringMedName, time, stringMedQuantity, stringMedUnit, stringMedDays );
+
+                if( rowInserted != -1 ) {
+                    Toast.makeText( this, "Medication " + stringMedName + " has been saved", Toast.LENGTH_SHORT ).show();
+                    Intent intent = new Intent( this, MainActivity.class );
+                    startActivity( intent );
+                }
+
+            } else
+                Toast.makeText( this, "There is reminder with such name and remind time", Toast.LENGTH_LONG ).show();
+
+            dbManager.close();
+        } catch ( Exception ex  ){
+            Log.d( "Insert err ", ex.toString() );
+            ex.printStackTrace();
+            Toast.makeText( this, "Something went wrong in saving", Toast.LENGTH_SHORT ).show();
+        }
+    }
+
+    private boolean formValidation() {
+        if( !validateMedName() )
+            return false;
+
+        if( !validateMedDays() )
+            return false;
+
+        if( !validateMedDose() )
+            return false;
+
+        return true;
+    }
+
+    private boolean validateMedName() {
+        if( medName.getText().toString().trim().isEmpty() ){
+            medNameLayout.setError( getString( R.string.err_msg_medication_name ) );
+            return false;
+        } else {
+            medNameLayout.setErrorEnabled( false );
+        }
+
+        return true;
+    }
+
+    private boolean validateMedDays() {
+        if( materialDayPicker.getSelectedDays().isEmpty() ){
+            dayPickerLayout.setError( getString( R.string.err_msg_medication_schedule ) );
+            return false;
+        } else {
+            dayPickerLayout.setErrorEnabled( false );
+        }
+
+        return true;
+    }
+
+    private boolean validateMedDose() {
+        String medQuant = medQuantity.getText().toString();
+
+        if( medQuant.trim().isEmpty() ){
+            medDoseLayout.setError( getString( R.string.err_msg_medication_dose ) );
+            return false;
+        } else if( Float.parseFloat( medQuant ) == 0 ) {
+            medDoseLayout.setError( getString( R.string.err_msg_medication_dose ) );
+            return false;
+        } else {
+            medDoseLayout.setErrorEnabled( false );
+        }
+
+        return true;
+    }
 
     private void showTimePicker() {
         Calendar mCurrentTime = Calendar.getInstance();
@@ -118,5 +223,36 @@ public class AddMedicineActivity extends AppCompatActivity{
         mTimePicker.show();
     }
 
+    private void setCurrentTime(){
+        Calendar currTime = Calendar.getInstance();
+        hour = currTime.get( Calendar.HOUR_OF_DAY );
+        minute = currTime.get( Calendar.MINUTE );
 
+        medicationTime.setText( String.format( Locale.getDefault(), "%02d:%02d", hour, minute ) );
+    }
+
+
+    private class myTextWatcher implements TextWatcher{
+        private View view;
+
+        private myTextWatcher(View view) {
+            this.view = view;
+        }
+
+        public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {}
+
+        public void onTextChanged(CharSequence charSequence, int start, int before, int count) {}
+
+        public void afterTextChanged(Editable editable) {
+            switch ( view.getId() ){
+                case R.id.med_name:
+                    validateMedName();
+                    break;
+                case R.id.dose_quantity:
+                    validateMedDose();
+                    break;
+            }
+        }
+    }
 }
+

@@ -21,7 +21,9 @@
 
         <activity
             android:name=".AddMedicineActivity"
-            android:theme="@style/AppTheme.ActionBar.Transparent">
+            android:theme="@style/AppTheme.ActionBar.Transparent"
+            android:windowSoftInputMode="adjustPan"
+            android:isScrollContainer="true">
         </activity>
 
     </application>
