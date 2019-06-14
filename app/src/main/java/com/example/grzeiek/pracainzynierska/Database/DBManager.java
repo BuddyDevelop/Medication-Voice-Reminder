@@ -88,7 +88,7 @@ public class DBManager {
 
         Cursor cursor = database.query(myDbHelper.TABLE_NAME, columnNames, null, null, null, null, null);
 
-        ArrayList<Reminder> reminderList = new ArrayList<Reminder>();
+        ArrayList<Reminder> reminderList = new ArrayList<>();
 
         if( cursor.moveToFirst() ){
             do {
@@ -140,6 +140,10 @@ public class DBManager {
 
         int i = database.update( myDbHelper.TABLE_NAME, contentValues, " _id = ? ", selectionArgs );
         return i;
+    }
+
+    public void deleteAll(){
+        database.delete( myDbHelper.TABLE_NAME, null, null );
     }
 }
 

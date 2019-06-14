@@ -19,12 +19,8 @@ import com.example.grzeiek.pracainzynierska.Database.DBManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import static android.app.Activity.RESULT_OK;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class HomeFragment extends Fragment {
 
     private DBManager dbManager;
@@ -63,8 +59,8 @@ public class HomeFragment extends Fragment {
             addMedicine.setOnClickListener( new View.OnClickListener() {
                 @Override
                 public void onClick( View v ) {
-                    Intent intent = new Intent( getActivity(), AddMedicineActivity.class );
-                    startActivity( intent );
+                    Intent intent = new Intent( getContext(), AddMedicineActivity.class );
+                    startActivityForResult( intent, 1 );
                 }
             } );
         } else {
@@ -96,15 +92,16 @@ public class HomeFragment extends Fragment {
                     Reminder editReminder = new Reminder(
                             arrayList.get( i ).getId(),
                             arrayList.get( i ).getMedName(),
+                            arrayList.get( i ).getReminderTime(),
                             arrayList.get( i ).getMedDose(),
                             arrayList.get( i ).getMedDoseUnit(),
-                            arrayList.get( i ).getReminderTime(),
                             arrayList.get( i ).getReminderDays()
                     );
 
 
-//                    Intent editIntent = new Intent( getActivity(), AddMedicineActivity.class );
-//                    editIntent.putExtra( "reminder", editReminder );
+                    Intent editIntent = new Intent( getContext(), AddMedicineActivity.class );
+                    editIntent.putExtra( "reminder", editReminder );
+                    startActivity( editIntent );
 //                    startActivityForResult( editIntent, 2 );
 
                 }
@@ -118,6 +115,7 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void onClick( View view ) {
                     Intent intent = new Intent( getActivity(), AddMedicineActivity.class );
+//                    startActivityForResult( intent, 1 );
                     startActivity( intent );
                 }
             } );
@@ -126,5 +124,45 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
+//    public void onActivityResult() {
+//        try {
+//            dbManager.open();
+//        } catch ( SQLException e ) {
+//            e.printStackTrace();
+//        }
+//
+//            if( getIntent)
+//
+//            Bundle extras = data.getExtras();
+//            Reminder editRem = ( Reminder ) extras.getSerializable( "update" );
+//
+//            dbManager.update( editRem.getId(),
+//                    editRem.getMedName(),
+//                    editRem.getReminderTime(),
+//                    editRem.getMedDose(),
+//                    editRem.getMedDoseUnit(),
+//                    editRem.getReminderDays()
+//            );
+//            Bundle extras = data.getExtras();
+//            Reminder editRem = ( Reminder ) extras.getSerializable( "new" );
+//
+//            long rowInserted = dbManager.insert(
+//                    editRem.getMedName(),
+//                    editRem.getReminderTime(),
+//                    editRem.getMedDose(),
+//                    editRem.getMedDoseUnit(),
+//                    editRem.getReminderDays()
+//            );
+//
+//            if( rowInserted != -1 )
+//                Toast.makeText( getContext(), "Medication " +  editRem.getMedName() + " has been saved", Toast.LENGTH_SHORT ).show();
+//
+//        }
+
+//        medReminderAdapter.clear();
+//        medReminderAdapter.addAll( dbManager.fetchAll() );
+//        medReminderAdapter.notifyDataSetChanged();
+//        dbManager.close();
+//    }
 
 }

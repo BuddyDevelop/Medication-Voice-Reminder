@@ -17,6 +17,7 @@
     <string name="bottom_nav_history">History</string>
 
     <string name="save">Save</string>
+    <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
 
@@ -36,11 +37,13 @@
     </string-array>
 
     <string name="add_medication_title">Add medication</string>
+    <string name="edit_medication_title">Edit medication</string>
     <string name="medication_name">Medication Name</string>
     <string name="medication_days">Schedule</string>
     <string name="medication_reminder">Medication Reminder</string>
     <string name="every_day">Every day</string>
     <string name="med_name_hint">Medication name</string>
+    <string name="delete_med_dialog_title">Do you really want to delete this reminder?</string>
 
     <string-array name="medication_type_array">
         <item>capsule(s)</item>

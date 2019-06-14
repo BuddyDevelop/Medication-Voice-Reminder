@@ -25,7 +25,6 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/colorPrimary"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-
         </android.support.design.widget.AppBarLayout>
 
 
@@ -72,7 +71,7 @@
                             android:layout_height="wrap_content"
                             android:backgroundTint="@color/colorPrimary"
                             android:hint="@string/med_name_hint"
-                            android:maxLines="2" />
+                            android:singleLine="true" />
                     </android.support.design.widget.TextInputLayout>
 
                 </LinearLayout>

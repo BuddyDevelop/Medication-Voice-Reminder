@@ -22,6 +22,14 @@ public class Reminder implements Serializable{
         this.reminderDays = reminderDays;
     }
 
+    public Reminder(  String medName, String reminderTime, String medDose, String medDoseUnit, String reminderDays ){
+        this.medName = medName;
+        this.medDose = medDose;
+        this.medDoseUnit = medDoseUnit;
+        this.reminderTime = reminderTime;
+        this.reminderDays = reminderDays;
+    }
+
     public int getId() {
         return id;
     }
@@ -35,13 +43,9 @@ public class Reminder implements Serializable{
         return medDose;
     }
 
-    public String getMedDoseUnit() {
-        return medDoseUnit;
-    }
+    public String getMedDoseUnit() { return medDoseUnit; }
 
-    public String getReminderTime() {
-        return reminderTime;
-    }
+    public String getReminderTime() { return reminderTime; }
 
     public String getReminderDays() {
         return reminderDays;
