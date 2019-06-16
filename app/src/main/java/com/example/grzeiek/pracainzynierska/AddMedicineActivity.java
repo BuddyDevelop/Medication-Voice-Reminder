@@ -26,6 +26,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.grzeiek.pracainzynierska.Database.DBManager;
+import com.example.grzeiek.pracainzynierska.broadcast_reciver.NotificationEventReceiver;
 
 import java.sql.SQLException;
 import java.util.Calendar;
@@ -115,6 +116,7 @@ public class AddMedicineActivity extends AppCompatActivity {
         saveMedBtn.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
+                NotificationEventReceiver.setupAlarm( getApplicationContext() );
                 if ( formValidation() ) {
                     if ( getIntent().getExtras() == null )
                         addMed();
@@ -265,7 +267,6 @@ public class AddMedicineActivity extends AppCompatActivity {
                     builder.show();
                 }
             } );
-
 
 
             //get reminder time

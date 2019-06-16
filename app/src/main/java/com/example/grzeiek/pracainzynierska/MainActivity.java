@@ -1,7 +1,5 @@
 package com.example.grzeiek.pracainzynierska;
 
-import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.DialogInterface;
@@ -18,16 +16,10 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.rupins.drawercardbehaviour.CardDrawerLayout;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -186,5 +178,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 } );
 
         builder.show();
+    }
+
+    // To prevent crash on resuming activity  : interaction with fragments allowed only after Fragments Resumed or in OnCreate
+    // http://www.androiddesignpatterns.com/2013/08/fragment-transaction-commit-state-loss.html
+    @Override
+    protected void onResumeFragments() {
+        super.onResumeFragments();
     }
 }

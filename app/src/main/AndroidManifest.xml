@@ -2,6 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.grzeiek.pracainzynierska">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -21,11 +27,29 @@
 
         <activity
             android:name=".AddMedicineActivity"
+            android:isScrollContainer="true"
             android:theme="@style/AppTheme.ActionBar.Transparent"
-            android:windowSoftInputMode="adjustPan"
-            android:isScrollContainer="true">
+            android:windowSoftInputMode="adjustPan">
         </activity>
 
+        <activity
+            android:name=".NotificationActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+        </activity>
+
+        <service
+            android:name=".Notifications.NotificationIntentService"
+            android:enabled="true"
+            android:exported="false">
+        </service>
+
+        <receiver android:name=".broadcast_reciver.NotificationEventReceiver" />
+        <receiver android:name=".broadcast_reciver.NotificationServiceStarterReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+                <action android:name="android.intent.action.TIME_SET" />
+            </intent-filter>
+        </receiver>
     </application>
-</manifest>
-    <!--android:theme="@style/Theme.Design.Light.NoActionBar">-->
+</manifest><!--android:theme="@style/Theme.Design.Light.NoActionBar">-->
