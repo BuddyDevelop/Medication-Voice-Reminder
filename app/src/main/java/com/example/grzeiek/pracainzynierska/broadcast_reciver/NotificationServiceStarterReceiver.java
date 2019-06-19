@@ -13,7 +13,9 @@ public class NotificationServiceStarterReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive( Context context, Intent intent ) {
-        NotificationEventReceiver.setupAlarm( context );
+//        NotificationEventReceiver.setupAlarm( context );
+        if ( intent == null )
+            return;
 
         switch ( intent.getAction() ) {
             case Intent.ACTION_TIMEZONE_CHANGED:

@@ -110,13 +110,13 @@ public class AddMedicineActivity extends AppCompatActivity {
             }
         } );
 
-        loadDataForEditReminder();
+        loadDataToEditReminder();
 
         //save med button action
         saveMedBtn.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
-                NotificationEventReceiver.setupAlarm( getApplicationContext() );
+//                NotificationEventReceiver.setupAlarm( getApplicationContext() );
                 if ( formValidation() ) {
                     if ( getIntent().getExtras() == null )
                         addMed();
@@ -125,6 +125,28 @@ public class AddMedicineActivity extends AppCompatActivity {
                 }
             }
         } );
+    }
+
+
+    //    Create notification reminders
+    private void addReminder( long medRecordId, String stringMedDays, String time ) {
+        String[] medDays = stringMedDays.trim().split( " " );
+        String alarmIdString = "";
+        int alarmId;
+
+        for ( String weekday : medDays ) {
+            alarmId = ( int ) System.currentTimeMillis();
+            alarmIdString += Integer.toString( alarmId ) + " ";
+            RemindersManager.addReminder( getApplicationContext(), alarmId, weekday, time );
+        }
+
+        try{
+            dbManager.open();
+            dbManager.insertAlarmId( medRecordId, alarmIdString );
+            dbManager.close();
+        } catch ( Exception e ){
+            e.printStackTrace();
+        }
     }
 
     private Reminder getData() {
@@ -157,7 +179,6 @@ public class AddMedicineActivity extends AppCompatActivity {
             Bundle extras = getIntent().getExtras();
             Reminder editReminder = ( Reminder ) extras.getSerializable( "reminder" );
             id = editReminder.getId();
-
         } catch ( Exception ex ) {
             ex.printStackTrace();
         }
@@ -186,6 +207,7 @@ public class AddMedicineActivity extends AppCompatActivity {
         String stringMedUnit = addReminder.getMedDoseUnit();
         String stringMedDays = addReminder.getReminderDays();
 
+        //variable to check if row has been added to DB
         long rowInserted = -1;
 
         try {
@@ -196,6 +218,8 @@ public class AddMedicineActivity extends AppCompatActivity {
 
                 if ( rowInserted != -1 ) {
                     Toast.makeText( this, "Medication " + stringMedName + " has been saved", Toast.LENGTH_SHORT ).show();
+                    //create notification reminders for this medication
+                    addReminder( rowInserted, stringMedDays, time );
                     Intent intent = new Intent( this, MainActivity.class );
                     startActivity( intent );
                 } else
@@ -212,7 +236,7 @@ public class AddMedicineActivity extends AppCompatActivity {
 
 
     //SETTING SENT VALUES IN FIELDS
-    private void loadDataForEditReminder() {
+    private void loadDataToEditReminder() {
         try {
             if ( getIntent().getExtras() == null )
                 return;

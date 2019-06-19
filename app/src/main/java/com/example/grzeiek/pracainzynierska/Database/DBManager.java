@@ -145,6 +145,56 @@ public class DBManager {
     public void deleteAll(){
         database.delete( myDbHelper.TABLE_NAME, null, null );
     }
+
+    public void insertAlarmId( long id, String alarmIds ){
+        String[] selectionArgs = { String.valueOf( id ) };
+
+        ContentValues contentValues = new ContentValues(  );
+        contentValues.put( myDbHelper.MEDICATION_ALARM_ID, alarmIds );
+
+        database.update( myDbHelper.TABLE_NAME, contentValues, " _id = ? ", selectionArgs );
+    }
+
+    public String getAlarmId( long id ){
+        String[] selectionArgs = { String.valueOf( id ) };
+        String[] columns = new String[] { myDbHelper.MEDICATION_ALARM_ID };
+        String result = "";
+
+        Cursor cursor = database.query( myDbHelper.TABLE_NAME, columns,
+                " _id = ? ",
+                selectionArgs,
+                null,
+                null,
+                null,
+                null );
+
+        if( cursor.moveToFirst() ){
+            result = cursor.getString( 0 );
+        }
+
+        return result;
+    }
+
+    public String[] getDataByAlarmId( int alarmId ){
+        String[] columns = new String[] { myDbHelper.MEDICATION_NAME, myDbHelper.MEDICATION_DOSE, myDbHelper.MEDICATION_DOSE_UNIT };
+        String whereClause = myDbHelper.MEDICATION_ALARM_ID + " LIKE '%" + alarmId + "%';";
+        String[] result = new String[ 3 ];
+
+        Cursor cursor = database.query( myDbHelper.TABLE_NAME, columns,
+                whereClause,
+                null,
+                null,
+                null,
+                null,
+                null );
+
+        if( cursor.moveToFirst() ){
+            result[ 0 ] = cursor.getString( 0 );
+            result[ 1 ] = cursor.getString( 1 );
+            result[ 2 ] = cursor.getString( 2 );
+        }
+        return result;
+    }
 }
 
 

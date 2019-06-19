@@ -43,8 +43,11 @@
             android:exported="false">
         </service>
 
-        <receiver android:name=".broadcast_reciver.NotificationEventReceiver" />
-        <receiver android:name=".broadcast_reciver.NotificationServiceStarterReceiver">
+        <receiver android:name=".broadcast_reciver.NotificationEventReceiver"
+            android:exported="false" />
+
+        <receiver android:name=".broadcast_reciver.NotificationServiceStarterReceiver"
+            android:exported="false" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.TIMEZONE_CHANGED" />

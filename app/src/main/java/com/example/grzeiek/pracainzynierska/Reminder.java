@@ -10,6 +10,7 @@ public class Reminder implements Serializable{
     private String medDoseUnit;
     private String reminderTime;
     private String reminderDays;
+    private String reminderAlarmId;
 
     public Reminder(){}
 
@@ -49,5 +50,11 @@ public class Reminder implements Serializable{
 
     public String getReminderDays() {
         return reminderDays;
+    }
+
+    public String getReminderAlarmId() { return reminderAlarmId; }
+
+    public void setReminderAlarmId( String reminderAlarmId ) {
+        this.reminderAlarmId = reminderAlarmId;
     }
 }

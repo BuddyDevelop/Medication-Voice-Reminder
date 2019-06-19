@@ -12,7 +12,9 @@ import com.example.grzeiek.pracainzynierska.Reminder;
 
 import java.util.ArrayList;
 
-
+/**
+ * Adapter to show all medication reminders
+ */
 public class MedReminderAdapter extends ArrayAdapter {
 
     private ArrayList<Reminder> reminders;

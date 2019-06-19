@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.grzeiek.pracainzynierska.Adapter.MedReminderAdapter;
 import com.example.grzeiek.pracainzynierska.Database.DBManager;
@@ -123,46 +122,4 @@ public class HomeFragment extends Fragment {
 
         return view;
     }
-
-//    public void onActivityResult() {
-//        try {
-//            dbManager.open();
-//        } catch ( SQLException e ) {
-//            e.printStackTrace();
-//        }
-//
-//            if( getIntent)
-//
-//            Bundle extras = data.getExtras();
-//            Reminder editRem = ( Reminder ) extras.getSerializable( "update" );
-//
-//            dbManager.update( editRem.getId(),
-//                    editRem.getMedName(),
-//                    editRem.getReminderTime(),
-//                    editRem.getMedDose(),
-//                    editRem.getMedDoseUnit(),
-//                    editRem.getReminderDays()
-//            );
-//            Bundle extras = data.getExtras();
-//            Reminder editRem = ( Reminder ) extras.getSerializable( "new" );
-//
-//            long rowInserted = dbManager.insert(
-//                    editRem.getMedName(),
-//                    editRem.getReminderTime(),
-//                    editRem.getMedDose(),
-//                    editRem.getMedDoseUnit(),
-//                    editRem.getReminderDays()
-//            );
-//
-//            if( rowInserted != -1 )
-//                Toast.makeText( getContext(), "Medication " +  editRem.getMedName() + " has been saved", Toast.LENGTH_SHORT ).show();
-//
-//        }
-
-//        medReminderAdapter.clear();
-//        medReminderAdapter.addAll( dbManager.fetchAll() );
-//        medReminderAdapter.notifyDataSetChanged();
-//        dbManager.close();
-//    }
-
 }

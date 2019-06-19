@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 public class MyDbHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "medicationreminder.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
 
     public static final String TABLE_NAME = "medreminder";
@@ -18,6 +18,7 @@ public class MyDbHelper extends SQLiteOpenHelper {
     public static final String MEDICATION_DOSE = "medication_dose";
     public static final String MEDICATION_DOSE_UNIT = "medication_unit";
     public static final String MEDICATION_DAYS = "medication_days";
+    public static final String MEDICATION_ALARM_ID = "medication_alarm_id";
 
 
     public MyDbHelper( Context context ){
@@ -33,7 +34,8 @@ public class MyDbHelper extends SQLiteOpenHelper {
                 MEDICATION_TIME + " TEXT NOT NULL, " +
                 MEDICATION_DOSE + " TEXT NOT NULL, " +
                 MEDICATION_DOSE_UNIT + " TEXT NOT NULL, " +
-                MEDICATION_DAYS + " TEXT NOT NULL " + ");";
+                MEDICATION_DAYS + " TEXT NOT NULL, " +
+                MEDICATION_ALARM_ID + " TEXT " + ");";
 
         sqLiteDatabase.execSQL( DATABASE_CREATE_TABLE );
 
@@ -41,7 +43,7 @@ public class MyDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade( SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion ) {
-        String SQL_QUERY = "DROP TABLE IF EXISTS " + DATABASE_NAME;
+        String SQL_QUERY = "DROP TABLE IF EXISTS " + TABLE_NAME;
         sqLiteDatabase.execSQL( SQL_QUERY );
         onCreate( sqLiteDatabase );
     }

@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
 
@@ -21,22 +22,27 @@ import java.util.Date;
 public class NotificationEventReceiver extends WakefulBroadcastReceiver {
 
     private static final String ACTION_START_NOTIFICATION_SERVICE = "ACTION_START_NOTIFICATION_SERVICE";
+    private static final String ACTION_WORKING_NOTIFICATION_SERVICE = "ACTION_WORKING_NOTIFICATION_SERVICE";
     private static final String ACTION_DELETE_NOTIFICATION = "ACTION_DELETE_NOTIFICATION";
 
-    private static final int NOTIFICATIONS_INTERVAL_IN_HOURS = 1;
+    private static final int NOTIFICATIONS_INTERVAL_WEEK = 7;
 
-    public static void setupAlarm( Context context ) {
+
+    public static void setupAlarm( Context context, int alarmId, long when ) {
         AlarmManager alarmManager = ( AlarmManager ) context.getSystemService( Context.ALARM_SERVICE );
-        PendingIntent alarmIntent = getStartPendingIntent( context );
+//        PendingIntent alarmIntent = getStartPendingIntent( context );
+
+        PendingIntent alarmIntent = getWorkingPendingIntent( context, alarmId );
+
         alarmManager.setRepeating( AlarmManager.RTC_WAKEUP,
-                getTriggerAt( new Date() ),
-                NOTIFICATIONS_INTERVAL_IN_HOURS * AlarmManager.INTERVAL_FIFTEEN_MINUTES,
+                when,
+                AlarmManager.INTERVAL_DAY * NOTIFICATIONS_INTERVAL_WEEK,
                 alarmIntent );
     }
 
-    public static void cancelAlarm( Context context ) {
+    public static void cancelAlarm( Context context, int alarmId ) {
         AlarmManager alarmManager = ( AlarmManager ) context.getSystemService( Context.ALARM_SERVICE );
-        PendingIntent alarmIntent = getStartPendingIntent( context );
+        PendingIntent alarmIntent = getWorkingPendingIntent( context, alarmId );
         alarmManager.cancel( alarmIntent );
     }
 
@@ -51,6 +57,13 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver {
         Intent intent = new Intent( context, NotificationEventReceiver.class );
         intent.setAction( ACTION_START_NOTIFICATION_SERVICE );
         return PendingIntent.getBroadcast( context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT );
+    }
+
+    private static PendingIntent getWorkingPendingIntent( Context context, int alarmId ) {
+        Intent intent = new Intent( context, NotificationEventReceiver.class );
+        intent.putExtra( "alarmId", alarmId );
+        intent.setAction( ACTION_WORKING_NOTIFICATION_SERVICE );
+        return PendingIntent.getBroadcast( context, alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT );
     }
 
     public static PendingIntent getDeleteIntent( Context context ) {
@@ -69,6 +82,10 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver {
         } else if ( ACTION_DELETE_NOTIFICATION.equals( action ) ) {
             Log.i( getClass().getSimpleName(), "onReceive delete notification action, starting notification service to handle delete" );
             serviceIntent = NotificationIntentService.createIntentDeleteNotification( context );
+        } else if ( ACTION_WORKING_NOTIFICATION_SERVICE.equals( action ) ) {
+            Bundle extras = intent.getExtras();
+            int alarmId = extras.getInt( "alarmId" );
+            serviceIntent = NotificationIntentService.createWorkingStartNotificationService( context, alarmId );
         }
 
         if ( serviceIntent != null ) {
