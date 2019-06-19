@@ -14,6 +14,18 @@ public class Reminder implements Serializable{
 
     public Reminder(){}
 
+    //constructor with all data
+    public Reminder( int id, String medName, String reminderTime, String medDose, String medDoseUnit, String reminderDays, String reminderAlarmIds ){
+        this.id = id;
+        this.medName = medName;
+        this.medDose = medDose;
+        this.medDoseUnit = medDoseUnit;
+        this.reminderTime = reminderTime;
+        this.reminderDays = reminderDays;
+        this.reminderAlarmId = reminderAlarmIds;
+    }
+
+    //constructor without reminder alarm Ids
     public Reminder( int id, String medName, String reminderTime, String medDose, String medDoseUnit, String reminderDays ){
         this.id = id;
         this.medName = medName;
@@ -23,6 +35,7 @@ public class Reminder implements Serializable{
         this.reminderDays = reminderDays;
     }
 
+    // constructor without record id, and reminder alarm ids
     public Reminder(  String medName, String reminderTime, String medDose, String medDoseUnit, String reminderDays ){
         this.medName = medName;
         this.medDose = medDose;

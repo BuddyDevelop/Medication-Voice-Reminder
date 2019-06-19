@@ -28,15 +28,23 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver {
     private static final int NOTIFICATIONS_INTERVAL_WEEK = 7;
 
 
-    public static void setupAlarm( Context context, int alarmId, long when ) {
+    public static void setupWeeklyAlarm( Context context, int alarmId, long when ) {
         AlarmManager alarmManager = ( AlarmManager ) context.getSystemService( Context.ALARM_SERVICE );
-//        PendingIntent alarmIntent = getStartPendingIntent( context );
-
         PendingIntent alarmIntent = getWorkingPendingIntent( context, alarmId );
 
         alarmManager.setRepeating( AlarmManager.RTC_WAKEUP,
                 when,
                 AlarmManager.INTERVAL_DAY * NOTIFICATIONS_INTERVAL_WEEK,
+                alarmIntent );
+    }
+
+    public static void setupEverydayAlarm( Context context, int alarmId, long when ) {
+        AlarmManager alarmManager = ( AlarmManager ) context.getSystemService( Context.ALARM_SERVICE );
+        PendingIntent alarmIntent = getWorkingPendingIntent( context, alarmId );
+
+        alarmManager.setRepeating( AlarmManager.RTC_WAKEUP,
+                when,
+                AlarmManager.INTERVAL_DAY,
                 alarmIntent );
     }
 

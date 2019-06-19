@@ -20,6 +20,14 @@ public class RemindersManager {
 
         final Calendar day = Calendar.getInstance();
 
+        day.set( Calendar.HOUR_OF_DAY, hour );
+        day.set( Calendar.MINUTE, minute );
+        day.set( Calendar.SECOND, 0 );
+
+        if ( stringMedDays.contains( "Daily" ) ) {
+            NotificationEventReceiver.setupEverydayAlarm( context, alarmId, day.getTimeInMillis() );
+            return;
+        }
 
         if ( stringMedDays.contains( "SUNDAY" ) ) {
             day.set( Calendar.DAY_OF_WEEK, Calendar.SUNDAY );
@@ -37,10 +45,14 @@ public class RemindersManager {
             day.set( Calendar.DAY_OF_WEEK, Calendar.SATURDAY );
         }
 
-        day.set( Calendar.HOUR_OF_DAY, hour );
-        day.set( Calendar.MINUTE, minute );
-        day.set( Calendar.SECOND, 0 );
+        NotificationEventReceiver.setupWeeklyAlarm( context, alarmId, day.getTimeInMillis() );
+    }
 
-        NotificationEventReceiver.setupAlarm( context, alarmId, day.getTimeInMillis() );
+    public static void cancelReminders( Context context, String alarmIds ) {
+        String[] alarmId = alarmIds.trim().split( " " );
+
+        for ( String id : alarmId ) {
+            NotificationEventReceiver.cancelAlarm( context, Integer.parseInt( id ) );
+        }
     }
 }

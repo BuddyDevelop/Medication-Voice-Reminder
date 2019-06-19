@@ -94,7 +94,8 @@ public class HomeFragment extends Fragment {
                             arrayList.get( i ).getReminderTime(),
                             arrayList.get( i ).getMedDose(),
                             arrayList.get( i ).getMedDoseUnit(),
-                            arrayList.get( i ).getReminderDays()
+                            arrayList.get( i ).getReminderDays(),
+                            arrayList.get( i ).getReminderAlarmId()
                     );
 
 

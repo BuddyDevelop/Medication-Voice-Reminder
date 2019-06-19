@@ -116,7 +116,6 @@ public class AddMedicineActivity extends AppCompatActivity {
         saveMedBtn.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick( View view ) {
-//                NotificationEventReceiver.setupAlarm( getApplicationContext() );
                 if ( formValidation() ) {
                     if ( getIntent().getExtras() == null )
                         addMed();
@@ -140,11 +139,11 @@ public class AddMedicineActivity extends AppCompatActivity {
             RemindersManager.addReminder( getApplicationContext(), alarmId, weekday, time );
         }
 
-        try{
+        try {
             dbManager.open();
             dbManager.insertAlarmId( medRecordId, alarmIdString );
             dbManager.close();
-        } catch ( Exception e ){
+        } catch ( Exception e ) {
             e.printStackTrace();
         }
     }
@@ -173,21 +172,28 @@ public class AddMedicineActivity extends AppCompatActivity {
         String stringMedQuantity = addReminder.getMedDose();
         String stringMedUnit = addReminder.getMedDoseUnit();
         String stringMedDays = addReminder.getReminderDays();
-        long id = -1;
+        long id;
+        String reminderAlarmId;
 
-        try {
-            Bundle extras = getIntent().getExtras();
-            Reminder editReminder = ( Reminder ) extras.getSerializable( "reminder" );
-            id = editReminder.getId();
-        } catch ( Exception ex ) {
-            ex.printStackTrace();
-        }
+        if ( getIntent().getExtras() == null || getIntent().getExtras().getSerializable( "reminder" ) == null )
+            return;
+
+//        get id and alarmIds of reminder
+        Bundle extras = getIntent().getExtras();
+        Reminder editReminder = ( Reminder ) extras.getSerializable( "reminder" );
+        id = editReminder.getId();
+        reminderAlarmId = editReminder.getReminderAlarmId();
 
 
         try {
             dbManager.open();
             if ( !dbManager.reminderExists( stringMedName, time, stringMedUnit, stringMedDays ) && id != -1 ) {
                 dbManager.update( id, stringMedName, time, stringMedQuantity, stringMedUnit, stringMedDays );
+                RemindersManager.cancelReminders( getApplicationContext(), reminderAlarmId );
+                addReminder( id, stringMedDays, time );
+
+
+                //show msg and back to main view
                 Intent intent = new Intent( this, MainActivity.class );
                 Toast.makeText( this, "Medication has been edited", Toast.LENGTH_SHORT ).show();
                 startActivity( intent );
@@ -271,10 +277,12 @@ public class AddMedicineActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick( DialogInterface dialog, int which ) {
                                     long id = editReminder.getId();
+                                    String alarmIds = editReminder.getReminderAlarmId();
 
                                     try {
                                         dbManager.open();
                                         dbManager.delete( id );
+                                        RemindersManager.cancelReminders( getApplicationContext(), alarmIds ); // cancel reminder alarms
                                         Intent intent = new Intent( AddMedicineActivity.this, MainActivity.class );
                                         startActivity( intent );
                                     } catch ( SQLException e ) {
