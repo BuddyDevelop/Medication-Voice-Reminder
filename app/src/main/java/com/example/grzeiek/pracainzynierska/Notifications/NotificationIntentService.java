@@ -78,11 +78,14 @@ public class NotificationIntentService extends IntentService {
             ex.printStackTrace();
         }
 
+        if( med == null && med.length == 0 )
+            return;
+
         final NotificationCompat.Builder builder = new NotificationCompat.Builder( this );
         builder.setContentTitle( med[ 0 ] )
                 .setAutoCancel( true )
                 .setColor( getResources().getColor( R.color.colorPrimaryDark ) )
-                .setContentText( "Take " + med[ 0 ] + " Dose is " + med[ 1 ] + " " + med[ 2 ] )
+                .setContentText( "Take " + med[ 0 ] + " the dose is " + med[ 1 ] + " " + med[ 2 ] )
                 .setPriority( NotificationCompat.PRIORITY_HIGH )
                 .setSmallIcon( R.drawable.ic_notifications_black_24dp );
 
