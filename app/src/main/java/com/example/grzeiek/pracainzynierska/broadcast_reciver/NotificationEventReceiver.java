@@ -14,14 +14,12 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Created by Grześiek on 15.06.2019.
  * WakefulBroadcastReceiver used to receive intents fired from the AlarmManager for showing notifications
  * and from the notification itself if it is deleted.
  */
 
 public class NotificationEventReceiver extends WakefulBroadcastReceiver {
 
-    private static final String ACTION_START_NOTIFICATION_SERVICE = "ACTION_START_NOTIFICATION_SERVICE";
     private static final String ACTION_WORKING_NOTIFICATION_SERVICE = "ACTION_WORKING_NOTIFICATION_SERVICE";
     private static final String ACTION_DELETE_NOTIFICATION = "ACTION_DELETE_NOTIFICATION";
 
@@ -41,6 +39,7 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver {
     public static void setupEverydayAlarm( Context context, int alarmId, long when ) {
         AlarmManager alarmManager = ( AlarmManager ) context.getSystemService( Context.ALARM_SERVICE );
         PendingIntent alarmIntent = getWorkingPendingIntent( context, alarmId );
+        alarmManager.cancel( alarmIntent );
 
         alarmManager.setRepeating( AlarmManager.RTC_WAKEUP,
                 when,
@@ -61,12 +60,6 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver {
         return calendar.getTimeInMillis();
     }
 
-    private static PendingIntent getStartPendingIntent( Context context ) {
-        Intent intent = new Intent( context, NotificationEventReceiver.class );
-        intent.setAction( ACTION_START_NOTIFICATION_SERVICE );
-        return PendingIntent.getBroadcast( context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT );
-    }
-
     private static PendingIntent getWorkingPendingIntent( Context context, int alarmId ) {
         Intent intent = new Intent( context, NotificationEventReceiver.class );
         intent.putExtra( "alarmId", alarmId );
@@ -84,16 +77,15 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver {
     public void onReceive( Context context, Intent intent ) {
         String action = intent.getAction();
         Intent serviceIntent = null;
-        if ( ACTION_START_NOTIFICATION_SERVICE.equals( action ) ) {
-            Log.i( getClass().getSimpleName(), "onReceive from alarm, starting notification service" );
-            serviceIntent = NotificationIntentService.createIntentStartNotificationService( context );
-        } else if ( ACTION_DELETE_NOTIFICATION.equals( action ) ) {
-            Log.i( getClass().getSimpleName(), "onReceive delete notification action, starting notification service to handle delete" );
+
+        if ( ACTION_DELETE_NOTIFICATION.equals( action ) ) {
+//            Log.i( getClass().getSimpleName(), "onReceive delete notification action, starting notification service to handle delete" );
             serviceIntent = NotificationIntentService.createIntentDeleteNotification( context );
         } else if ( ACTION_WORKING_NOTIFICATION_SERVICE.equals( action ) ) {
+            Log.i( getClass().getSimpleName(), "onReceive create notification action, starting notification service" );
             Bundle extras = intent.getExtras();
             int alarmId = extras.getInt( "alarmId" );
-            serviceIntent = NotificationIntentService.createWorkingStartNotificationService( context, alarmId );
+            serviceIntent = NotificationIntentService.createWorkingNotificationService( context, alarmId );
         }
 
         if ( serviceIntent != null ) {

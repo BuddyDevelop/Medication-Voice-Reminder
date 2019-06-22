@@ -176,10 +176,12 @@ public class DBManager {
         return result;
     }
 
-    public String[] getDataByAlarmId( int alarmId ) {
-        String[] columns = new String[]{ myDbHelper.MEDICATION_NAME, myDbHelper.MEDICATION_DOSE, myDbHelper.MEDICATION_DOSE_UNIT };
+    public Reminder getReminderByAlarmId( int alarmId ) {
+        String[] columns = new String[]{ myDbHelper.MEDICATION_NAME, myDbHelper.MEDICATION_TIME, myDbHelper.MEDICATION_DOSE,
+                myDbHelper.MEDICATION_DOSE_UNIT, myDbHelper.MEDICATION_DAYS };
         String whereClause = myDbHelper.MEDICATION_ALARM_ID + " LIKE '%" + alarmId + "%';";
-        String[] result = new String[ 3 ];
+
+        Reminder reminder = new Reminder();
 
         Cursor cursor = database.query( myDbHelper.TABLE_NAME, columns,
                 whereClause,
@@ -190,11 +192,44 @@ public class DBManager {
                 null );
 
         if ( cursor.moveToFirst() ) {
-            result[ 0 ] = cursor.getString( 0 );
-            result[ 1 ] = cursor.getString( 1 );
-            result[ 2 ] = cursor.getString( 2 );
+            reminder = new Reminder(
+                    cursor.getString( 0 ),
+                    cursor.getString( 1 ),
+                    cursor.getString( 2 ),
+                    cursor.getString( 3 ),
+                    cursor.getString( 4 )
+            );
         }
-        return result;
+        return reminder;
+    }
+
+    public ArrayList<Reminder> getRemindersByTime( String medName, String medTime ) {
+        String[] columns = new String[]{ myDbHelper.MEDICATION_NAME, myDbHelper.MEDICATION_TIME, myDbHelper.MEDICATION_DOSE,
+                myDbHelper.MEDICATION_DOSE_UNIT, myDbHelper.MEDICATION_DAYS };
+        String whereClause = myDbHelper.MEDICATION_NAME + " != ? AND " + myDbHelper.MEDICATION_TIME + " = ?;";
+        String[] whereArgs = new String[] { medName, medTime };
+        ArrayList<Reminder> reminderList = new ArrayList<>();
+
+        Cursor cursor = database.query( myDbHelper.TABLE_NAME, columns,
+                whereClause,
+                whereArgs,
+                null,
+                null,
+                null,
+                null );
+
+        if ( cursor.moveToFirst() ) {
+            do {
+                reminderList.add( new Reminder(
+                        cursor.getString( 0 ),
+                        cursor.getString( 1 ),
+                        cursor.getString( 2 ),
+                        cursor.getString( 3 ),
+                        cursor.getString( 4 )
+                ) );
+            } while ( cursor.moveToNext() );
+        }
+        return reminderList;
     }
 }
 

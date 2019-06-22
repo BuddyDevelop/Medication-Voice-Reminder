@@ -23,7 +23,6 @@ public class NotificationServiceStarterReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive( Context context, Intent intent ) {
-//        NotificationEventReceiver.setupWeeklyAlarm( context );
         if ( intent == null )
             return;
 
@@ -38,7 +37,6 @@ public class NotificationServiceStarterReceiver extends BroadcastReceiver {
     }
 
     public void recreateAllAlarms( Context context ) {
-        int myAlarmDayOfTheWeek;
         dbManager = new DBManager( context );
 
         try {
@@ -72,38 +70,7 @@ public class NotificationServiceStarterReceiver extends BroadcastReceiver {
                     alarmId = ( int ) System.currentTimeMillis();
                     alarmIdString += Integer.toString( alarmId ) + " ";
 
-
-                    if ( weekday.contains( "Daily" ) ) {
-                        day.set( Calendar.HOUR_OF_DAY, hour );
-                        day.set( Calendar.MINUTE, minute );
-                        day.set( Calendar.SECOND, 0 );
-                        NotificationEventReceiver.setupEverydayAlarm( context, alarmId, day.getTimeInMillis() );
-                        continue;
-                    }
-
-                    myAlarmDayOfTheWeek = getDayAsInt( weekday );
-
-                    //Check whether the day of the week was earlier in the week:
-                    if ( myAlarmDayOfTheWeek > day.get( Calendar.DAY_OF_WEEK ) ) {
-                        day.add( Calendar.DAY_OF_YEAR, ( myAlarmDayOfTheWeek - day.get( Calendar.DAY_OF_WEEK ) ) );
-                    } else {
-                        if ( myAlarmDayOfTheWeek < day.get( Calendar.DAY_OF_WEEK ) ) {
-                            //Set the day of the AlarmManager:
-                            day.add( Calendar.DAY_OF_YEAR, ( 7 - ( day.get( Calendar.DAY_OF_WEEK ) - myAlarmDayOfTheWeek ) ) );
-                        } else {  // myAlarmDayOfTheWeek == time.get(Calendar.DAY_OF_WEEK)
-                            //Check whether the time has already gone:
-                            if ( ( hour < day.get( Calendar.HOUR_OF_DAY ) ) || ( ( hour == day.get( Calendar.HOUR_OF_DAY ) ) && ( minute < day.get( Calendar.MINUTE ) ) ) ) {
-                                //Set the day of the AlarmManager:
-                                day.add( Calendar.DAY_OF_YEAR, 7 );
-                            }
-                        }
-                    }
-
-                    day.set( Calendar.HOUR_OF_DAY, hour );
-                    day.set( Calendar.MINUTE, minute );
-                    day.set( Calendar.SECOND, 0 );
-                    NotificationEventReceiver.setupWeeklyAlarm( context, alarmId, day.getTimeInMillis() );
-//                    RemindersManager.addReminder( context, alarmId, weekday, time );
+                    RemindersManager.addReminder( context, alarmId, weekday, time );
                 }
                 dbManager.insertAlarmId( medRecordId, alarmIdString );
             }
@@ -111,27 +78,5 @@ public class NotificationServiceStarterReceiver extends BroadcastReceiver {
         } catch ( SQLException e ) {
             e.printStackTrace();
         }
-    }
-
-    public int getDayAsInt( String weekday ) {
-        int myAlarmDayOfTheWeek = -1;
-
-        if ( weekday.contains( "SUNDAY" ) ) {
-            myAlarmDayOfTheWeek = Calendar.SUNDAY;
-        } else if ( weekday.contains( "MONDAY" ) ) {
-            myAlarmDayOfTheWeek = Calendar.MONDAY;
-        } else if ( weekday.contains( "TUESDAY" ) ) {
-            myAlarmDayOfTheWeek = Calendar.TUESDAY;
-        } else if ( weekday.contains( "WEDNESDAY" ) ) {
-            myAlarmDayOfTheWeek = Calendar.WEDNESDAY;
-        } else if ( weekday.contains( "THURSDAY" ) ) {
-            myAlarmDayOfTheWeek = Calendar.THURSDAY;
-        } else if ( weekday.contains( "FRIDAY" ) ) {
-            myAlarmDayOfTheWeek = Calendar.FRIDAY;
-        } else if ( weekday.contains( "SATURDAY" ) ) {
-            myAlarmDayOfTheWeek = Calendar.SATURDAY;
-        }
-
-        return myAlarmDayOfTheWeek;
     }
 }
