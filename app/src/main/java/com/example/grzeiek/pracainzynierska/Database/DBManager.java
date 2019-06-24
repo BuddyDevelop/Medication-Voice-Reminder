@@ -86,7 +86,7 @@ public class DBManager {
                 myDbHelper.MEDICATION_TIME, myDbHelper.MEDICATION_DOSE,
                 myDbHelper.MEDICATION_DOSE_UNIT, myDbHelper.MEDICATION_DAYS, myDbHelper.MEDICATION_ALARM_ID };
 
-        Cursor cursor = database.query( myDbHelper.TABLE_NAME, columnNames, null, null, null, null, null );
+        Cursor cursor = database.query( myDbHelper.TABLE_NAME, columnNames, null, null, null, null, myDbHelper.MEDICATION_TIME );
 
         ArrayList<Reminder> reminderList = new ArrayList<>();
 

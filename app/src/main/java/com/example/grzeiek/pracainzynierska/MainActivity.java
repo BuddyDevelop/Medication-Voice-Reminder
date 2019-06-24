@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         drawer.addDrawerListener( toggle );
         toggle.syncState();
 
+        //drawer menu item click actions
         NavigationView navigationView = findViewById( R.id.nav_view );
         navigationView.setNavigationItemSelectedListener( new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -72,7 +73,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     case R.id.nav_speak_notification_settings:
                         speakNotificationSettingsDialog();
                         break;
-
+                    case R.id.nav_enable_speak_notifications:
+                        enableSpeakNotificationDialog();
+                        break;
                 }
                 return false;
             }
@@ -144,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         final boolean[] selectedSettings = new boolean[ speakNotificationSettings.length ];
 
         // get user notification preferences
-        for ( int i = 0; i < speakNotificationSettings.length; ++i ) {
+        for ( int i = 0; i < selectedSettings.length; ++i ) {
             selectedSettings[ i ] = userPreferences.getBoolean( speakNotificationSettings[ i ], true );
         }
 
@@ -168,6 +171,42 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                             preEditor.putBoolean( speakNotificationSettings[ i ], selectedSettings[ i ] );
                         }
                         preEditor.apply();
+                    }
+                } )
+                .setNegativeButton( R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick( DialogInterface dialogInterface, int i ) {
+                        dialogInterface.dismiss();
+                    }
+                } );
+
+        builder.show();
+    }
+
+    private void enableSpeakNotificationDialog() {
+        final SharedPreferences userPreferences = getSharedPreferences( "enable_speak_notification", MODE_PRIVATE );
+        final boolean[] checked = new boolean[ 1 ];
+
+        checked[ 0 ] = userPreferences.getBoolean( "enabled", true );
+
+        AlertDialog.Builder builder = new AlertDialog.Builder( this );
+        builder.setTitle( R.string.enable_speak_notifications );
+
+        String[] dialogTitle = { getResources().getString( R.string.enable_speak_notifications_dialog ) };
+
+        builder
+                .setMultiChoiceItems( dialogTitle, checked, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick( DialogInterface dialogInterface, int elem, boolean isChecked ) {
+                        checked[ elem ] = isChecked;
+                    }
+                } )
+                .setPositiveButton( R.string.save, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick( DialogInterface dialog, int which ) {
+                        SharedPreferences.Editor editor = userPreferences.edit();
+                        editor.putBoolean( "enabled", checked[ 0 ] );
+                        editor.apply();
                     }
                 } )
                 .setNegativeButton( R.string.cancel, new DialogInterface.OnClickListener() {

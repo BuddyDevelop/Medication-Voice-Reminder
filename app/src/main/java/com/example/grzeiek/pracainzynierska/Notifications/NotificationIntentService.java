@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -29,7 +30,6 @@ public class NotificationIntentService extends IntentService {
 
     private DBManager dbManager = new DBManager( this );
     private ArrayList<Reminder> reminderArrayList;
-
 
     private static final String ACTION_WORKING = "ACTION_WORKING";
     private static final String ACTION_DELETE = "ACTION_DELETE";
@@ -93,7 +93,7 @@ public class NotificationIntentService extends IntentService {
                 .setColor( getResources().getColor( R.color.colorPrimaryDark ) )
                 .setContentText( notificationContentText )
                 .setPriority( NotificationCompat.PRIORITY_HIGH )
-                .setSmallIcon( R.drawable.ic_notifications_black_24dp );
+                .setSmallIcon( R.mipmap.ic_notification_filled_round );
 
         //Vibration
         builder.setVibrate( new long[]{ 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000 } );
@@ -113,18 +113,34 @@ public class NotificationIntentService extends IntentService {
         manager.notify( alarmId, builder.build() );
 
 
-        if ( !TTS.isIntentServiceRunning ) {
-            ArrayList<String> notificationsContentArr = new ArrayList<>();
-            ArrayList<String> reminderWithSameTime = findReminderWithSameTimeAndDate( reminder.getMedName(), reminder.getReminderTime(), reminder.getReminderDays() );
+//        final SharedPreferences userPreferences = getSharedPreferences( "enable_speak_notification", MODE_PRIVATE );
+//        if ( userPreferences.getBoolean( "enabled", true ) ) {
+//            Intent ttsIntent = new Intent( getApplicationContext(), TTS.class );
+//            ttsIntent.putExtra( "ttsContent", reminder );
+//            getApplicationContext().startService( ttsIntent );
+//        }
+//        check if user want to have notifications spoken loud
+        speakNotificationLoud( getApplicationContext(), reminder );
+    }
 
-            notificationsContentArr.add( notificationContentText );
-            if ( reminderWithSameTime != null )
-                notificationsContentArr.addAll( reminderWithSameTime );
-            // speak notification content aloud
-            speakNotificationService( getApplicationContext(), notificationsContentArr );
+    private void speakNotificationLoud( Context context, Reminder reminder ) {
+        final SharedPreferences userPreferences = getSharedPreferences( "enable_speak_notification", MODE_PRIVATE );
+        if ( userPreferences.getBoolean( "enabled", true ) ) {
 
+            //speak notifications
+            if ( !TTS.isIntentServiceRunning ) {
+                ArrayList<String> notificationsContentArr = new ArrayList<>();
+                ArrayList<String> reminderWithSameTime = findReminderWithSameTimeAndDate( reminder.getMedName(), reminder.getReminderTime(), reminder.getReminderDays() );
 
-            TTS.isIntentServiceRunning = true;
+                notificationsContentArr.add( returnNotificationContent( reminder.getMedName(), reminder.getMedDose(), reminder.getMedDoseUnit() ) );
+                if ( reminderWithSameTime != null )
+                    notificationsContentArr.addAll( reminderWithSameTime );
+
+                // speak notification content aloud
+                speakNotificationService( context, notificationsContentArr );
+
+                TTS.isIntentServiceRunning = true;
+            }
         }
     }
 
@@ -150,8 +166,8 @@ public class NotificationIntentService extends IntentService {
             remDays = reminder.getReminderDays();
 
             if ( remDays.contains( medDay ) || remDays.contains( "Daily" ) )
-                notificationContent.add( "Take " + reminder.getMedName() + " dosage is " +
-                        reminder.getMedDose() + " " + reminder.getMedDoseUnit() );
+                notificationContent.add( returnNotificationContent( reminder.getMedName(),
+                        reminder.getMedDose(), reminder.getMedDoseUnit() ) );
         }
 
         return notificationContent;
@@ -160,6 +176,11 @@ public class NotificationIntentService extends IntentService {
     private void speakNotificationService( Context context, ArrayList<String> notificationsContentArr ) {
         Intent ttsIntent = new Intent( context, TTS.class );
         ttsIntent.putStringArrayListExtra( "ttsContent", notificationsContentArr );
-        getApplicationContext().startService( ttsIntent );
+        context.startService( ttsIntent );
+    }
+
+    private String returnNotificationContent( String medName, String medDose, String medDoseUnit ) {
+        return "Notification from " + getString( R.string.app_name ) + ". It says: take " + medName +
+                " the dosage is " + medDose + " " + medDoseUnit;
     }
 }

@@ -43,10 +43,13 @@
             android:exported="false">
         </service>
 
-        <service android:name=".TTS" />
+        <service android:name=".TTS"
+            android:enabled="true"
+            android:exported="false" />
 
         <receiver android:name=".broadcast_reciver.NotificationEventReceiver"
-            android:exported="false" />
+            android:exported="false"
+            android:enabled="true" />
 
         <receiver android:name=".broadcast_reciver.NotificationServiceStarterReceiver"
             android:exported="false"

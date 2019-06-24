@@ -26,6 +26,16 @@ public class TTS extends Service implements TextToSpeech.OnInitListener {
         mTts = new TextToSpeech( this, this );
     }
 
+
+//    @Override
+//    public int onStartCommand( Intent intent, int flags, int startId ) {
+//        super.onStartCommand( intent, flags, startId );
+//        if ( intent != null )
+//            if ( intent.getStringArrayListExtra( "ttsContent" ) != null )
+//                spokenText = intent.getStringArrayListExtra( "ttsContent" );
+//        return START_STICKY;
+//    }
+
     @Override
     public void onStart( Intent intent, int startId ) {
         super.onStart( intent, startId );
@@ -44,12 +54,12 @@ public class TTS extends Service implements TextToSpeech.OnInitListener {
 //                handler.postDelayed( new Runnable() {
 //                    @Override
 //                    public void run() {
-                        // speak all notifications which have same reminder time and day
-                        for ( String text : spokenText ) {
-                            mTts.speak( text, TextToSpeech.QUEUE_ADD, null );
-                            mTts.playSilentUtterance( 2000, TextToSpeech.QUEUE_ADD, null );
-                            mTts.speak( text, TextToSpeech.QUEUE_ADD, null );
-                        }
+                // speak all notifications which have same reminder time and day
+                for ( String text : spokenText ) {
+                    mTts.speak( text, TextToSpeech.QUEUE_ADD, null );
+                    mTts.playSilentUtterance( 2000, TextToSpeech.QUEUE_ADD, null );
+                    mTts.speak( text, TextToSpeech.QUEUE_ADD, null );
+                }
 //                    }
 //                }, 2000 );
             }
@@ -65,7 +75,7 @@ public class TTS extends Service implements TextToSpeech.OnInitListener {
             mTts.shutdown();
 
 //            synchronized ( this ) {
-                isIntentServiceRunning = false;
+            isIntentServiceRunning = false;
 //            }
         }
         super.onDestroy();
