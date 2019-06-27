@@ -4,7 +4,6 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -72,4 +71,22 @@
     <string name="err_msg_medication_name">Enter medication name</string>
     <string name="err_msg_medication_schedule">Select at least one day</string>
     <string name="err_msg_medication_dose">Dose must be greater than 0</string>
+
+
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">LOGIN</string>
+    <string name="show_pswd">Show Password</string>
+    <string name="hide_pswd">Hide Password</string>
+    <string name="forgot_pswd">Forgot password?</string>
+    <string name="closebutton">Close Button for Activity</string>
+    <string name="newUser">Not a Member yet? Sign Up here.</string>
+    <string name="fullName">Full Name</string>
+    <string name="pesel">Pesel</string>
+    <string name="confirmPassword">Confirm Password</string>
+    <string name="signUp">SIGN UP</string>
+    <string name="already_user">Already have Account? Login here.</string>
+    <string name="registered_email">Please enter your Registered Email below:</string>
+    <string name="submit">SUBMIT</string>
+    <string name="back">BACK</string>
 </resources>
