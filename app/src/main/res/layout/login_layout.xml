@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:background="@android:color/transparent"
-            android:drawableLeft="@android:drawable/sym_action_email"
+            android:drawableStart="@android:drawable/sym_action_email"
             android:drawablePadding="8dp"
             android:gravity="center_vertical"
             android:hint="@string/email"
@@ -112,5 +112,13 @@
         android:text="@string/newUser"
         android:textColor="@color/cardview_light_background"
         android:textSize="15sp" />
+
+    <ProgressBar
+        android:id="@+id/loginProgressBar"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        />
 
 </RelativeLayout>

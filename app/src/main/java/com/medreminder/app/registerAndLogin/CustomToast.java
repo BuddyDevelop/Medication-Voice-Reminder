@@ -13,7 +13,7 @@ import com.medreminder.app.R;
 public class CustomToast {
 
     // Custom Toast Method
-    public void Show_Toast( Context context, View view, String error ) {
+    public void showToast( Context context, View view, String error ) {
 
         // Layout Inflater for inflating custom view
         LayoutInflater inflater = ( LayoutInflater ) context

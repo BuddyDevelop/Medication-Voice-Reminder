@@ -1,9 +1,11 @@
 package com.medreminder.app.registerAndLogin;
 
+
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,21 +18,30 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.medreminder.app.R;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.medreminder.app.registerAndLogin.SignUpFragment.userAlreadyLogged;
+
 public class LoginFragment extends Fragment implements OnClickListener {
     private static View view;
 
     private EditText email, password;
+    private ProgressBar progressBar;
     private Button loginButton;
     private TextView forgotPassword, signUp;
     private CheckBox show_hide_password;
@@ -39,8 +50,10 @@ public class LoginFragment extends Fragment implements OnClickListener {
     private static FragmentManager fragmentManager;
     public static final String emailRegEx = "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}\\b";
 
-    public LoginFragment() {
+    private FirebaseAuth mAuth;
 
+
+    public LoginFragment() {
     }
 
     @Override
@@ -64,22 +77,14 @@ public class LoginFragment extends Fragment implements OnClickListener {
         show_hide_password = ( CheckBox ) view
                 .findViewById( R.id.show_hide_password );
         loginLayout = ( LinearLayout ) view.findViewById( R.id.login_layout );
+        progressBar = ( ProgressBar ) view.findViewById( R.id.loginProgressBar );
+        progressBar.setVisibility( View.GONE );
 
         // Load ShakeAnimation
         shakeAnimation = AnimationUtils.loadAnimation( getActivity(),
                 R.anim.shake_animation );
 
-        // Setting text selector over textviews
-//        XmlResourceParser xrp = getResources().getXml( R.drawable.text_selector );
-//        try {
-//            ColorStateList csl = ColorStateList.createFromXml( getResources(),
-//                    xrp );
-//
-//            forgotPassword.setTextColor( csl );
-//            show_hide_password.setTextColor( csl );
-//            signUp.setTextColor( csl );
-//        } catch ( Exception e ) {
-//        }
+        mAuth = FirebaseAuth.getInstance();
     }
 
     // Set Listeners
@@ -163,18 +168,48 @@ public class LoginFragment extends Fragment implements OnClickListener {
         if ( emailString.equals( "" ) || emailString.length() == 0
                 || passwordString.equals( "" ) || passwordString.length() == 0 ) {
             loginLayout.startAnimation( shakeAnimation );
-            new CustomToast().Show_Toast( getActivity(), view,
+            new CustomToast().showToast( getActivity(), view,
                     "Enter both credentials." );
 
         }
         // Check if email is valid or not
         else if ( !m.find() )
-            new CustomToast().Show_Toast( getActivity(), view,
+            new CustomToast().showToast( getActivity(), view,
                     "Your email is invalid." );
             // Else do login and do your stuff
         else
-            Toast.makeText( getActivity(), "Do Login.", Toast.LENGTH_SHORT )
-                    .show();
+            signIn( emailString, passwordString );
 
+    }
+
+    private void signIn( String email, String password ) {
+        progressBar.setVisibility( View.VISIBLE );
+
+        mAuth.signInWithEmailAndPassword( email, password )
+                .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete( @NonNull Task<AuthResult> task ) {
+                        if ( task.isSuccessful() ) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d( "signIn: success", "signInWithEmail:success" );
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            userAlreadyLogged( getContext() );
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w( "signIn: fail", "signInWithEmail:failure", task.getException() );
+                            new CustomToast().showToast( getActivity(), view, "Authentication failed." );
+                        }
+                        progressBar.setVisibility( View.GONE );
+                    }
+                } );
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if ( currentUser != null )
+            userAlreadyLogged( getActivity() );
     }
 }

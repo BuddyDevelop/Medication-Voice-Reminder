@@ -7,11 +7,16 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.medreminder.app.R;
 
 import java.util.regex.Matcher;
@@ -19,10 +24,13 @@ import java.util.regex.Pattern;
 
 public class ForgotPasswordFragment extends Fragment implements
         OnClickListener {
-    private static View view;
+    private View view;
 
-    private static EditText emailId;
-    private static TextView submit, back;
+    private EditText emailId;
+    private TextView submit, back;
+    private ProgressBar progressBar;
+
+    private FirebaseAuth mAuth;
 
     public ForgotPasswordFragment() {
 
@@ -43,19 +51,10 @@ public class ForgotPasswordFragment extends Fragment implements
         emailId = ( EditText ) view.findViewById( R.id.registered_emailid );
         submit = ( TextView ) view.findViewById( R.id.forgot_button );
         back = ( TextView ) view.findViewById( R.id.backToLoginBtn );
+        progressBar = ( ProgressBar ) view.findViewById( R.id.forgotPswdProgressBar );
+        progressBar.setVisibility( View.GONE );
 
-//        // Setting text selector over textviews
-//        XmlResourceParser xrp = getResources().getXml(R.drawable.text_selector);
-//        try {
-//            ColorStateList csl = ColorStateList.createFromXml(getResources(),
-//                    xrp);
-//
-//            back.setTextColor(csl);
-//            submit.setTextColor(csl);
-//
-//        } catch (Exception e) {
-//        }
-
+        mAuth = FirebaseAuth.getInstance();
     }
 
     // Set Listeners over buttons
@@ -88,7 +87,7 @@ public class ForgotPasswordFragment extends Fragment implements
     }
 
     private void submitButtonTask() {
-        String emailString = emailId.getText().toString();
+        String emailString = emailId.getText().toString().trim();
 
         // Pattern for email id validation
         Pattern p = Pattern.compile( LoginFragment.emailRegEx );
@@ -99,17 +98,33 @@ public class ForgotPasswordFragment extends Fragment implements
         // First check if email id is not null else show error toast
         if ( emailString.equals( "" ) || emailString.length() == 0 )
 
-            new CustomToast().Show_Toast( getActivity(), view,
+            new CustomToast().showToast( getActivity(), view,
                     "Please enter your email." );
 
             // Check if email id is valid or not
         else if ( !m.find() )
-            new CustomToast().Show_Toast( getActivity(), view,
+            new CustomToast().showToast( getActivity(), view,
                     "Your email is invalid." );
 
             // Else submit email id and fetch password or do your stuff
         else
-            Toast.makeText( getActivity(), "Get Forgot Password.",
-                    Toast.LENGTH_SHORT ).show();
+            resetPasswordWithEmail( emailString );
+    }
+
+    private void resetPasswordWithEmail( String email ) {
+        progressBar.setVisibility( View.VISIBLE );
+
+        mAuth.sendPasswordResetEmail( email )
+                .addOnCompleteListener( new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete( @NonNull Task<Void> task ) {
+                        progressBar.setVisibility( View.GONE );
+
+                        if( task.isSuccessful() )
+                            Toast.makeText( getActivity(), R.string.forgot_pswd_send, Toast.LENGTH_SHORT ).show();
+                        else
+                            new CustomToast().showToast( getActivity(), view, "Failed to send reset email." );
+                    }
+                } );
     }
 }

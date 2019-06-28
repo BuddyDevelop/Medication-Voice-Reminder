@@ -7,8 +7,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -19,12 +22,15 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.medreminder.app.registerAndLogin.RegisterActivity;
 import com.rupins.drawercardbehaviour.CardDrawerLayout;
 
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     private CardDrawerLayout drawer;
+
 
     @Override
     protected void onCreate( final Bundle savedInstanceState ) {
@@ -33,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         //loading the default fragment
         loadFragment( new HomeFragment() );
+        logout();
 
         //getting bottom navigation view and attaching the listener
         BottomNavigationView navigation = findViewById( R.id.navigation );
@@ -87,6 +94,30 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         drawer.setViewScale( Gravity.START, 0.8f );
         drawer.setRadius( Gravity.START, 25 );
         drawer.setViewElevation( Gravity.START, 30 );
+    }
+
+    private void logout() {
+        //control views inside NavigationView header
+        NavigationView navigationView = findViewById( R.id.nav_view );
+        View headerLayout = navigationView.getHeaderView( 0 );
+
+        Button logout = ( Button ) headerLayout.findViewById( R.id.logout );
+
+        logout.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick( View view ) {
+                try {
+                    Log.e( "LogoutAction:try", "Logout try" );
+                    FirebaseAuth.getInstance().signOut();
+                    Intent intent = new Intent( getApplicationContext(), RegisterActivity.class );
+                    startActivity( intent );
+                    finish();  // because we do not want come here on back pressed
+                } catch ( Exception e ) {
+                    Log.e( "LogoutAction:Error", "Logout failure" );
+                    e.printStackTrace();
+                }
+            }
+        } );
     }
 
 

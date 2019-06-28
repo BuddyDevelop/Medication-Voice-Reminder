@@ -30,6 +30,19 @@
         android:text="Bary"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/roundButton"
+        android:backgroundTint="@android:color/transparent"
+        android:layout_gravity="center_vertical"
+        android:textSize="@dimen/text_medium"
+        android:textColor="@color/cardview_light_background"
+        android:text="@string/logout"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        />
+
 
 </LinearLayout>
 

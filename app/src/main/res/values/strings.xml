@@ -89,4 +89,7 @@
     <string name="registered_email">Please enter your Registered Email below:</string>
     <string name="submit">SUBMIT</string>
     <string name="back">BACK</string>
+    <string name="registration_successful">Account has been successfully created!</string>
+    <string name="logout">Logout</string>
+    <string name="forgot_pswd_send">We have sent you instructions to reset your password on email!</string>
 </resources>
