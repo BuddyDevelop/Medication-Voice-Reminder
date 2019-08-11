@@ -1,4 +1,4 @@
-package com.medreminder.app;
+package com.medreminder.app.Activities;
 
 import android.app.AlertDialog;
 import android.content.ComponentName;
@@ -23,6 +23,10 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.medreminder.app.Fragments.HomeFragment;
+import com.medreminder.app.Fragments.MedicationsFragment;
+import com.medreminder.app.Fragments.PrescriptionsFragment;
+import com.medreminder.app.R;
 import com.medreminder.app.registerAndLogin.RegisterActivity;
 import com.rupins.drawercardbehaviour.CardDrawerLayout;
 
@@ -107,13 +111,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             @Override
             public void onClick( View view ) {
                 try {
-                    Log.e( "LogoutAction:try", "Logout try" );
+                    Log.e( "LogoutAction:", "Logout try" );
                     FirebaseAuth.getInstance().signOut();
                     Intent intent = new Intent( getApplicationContext(), RegisterActivity.class );
                     startActivity( intent );
                     finish();  // because we do not want come here on back pressed
                 } catch ( Exception e ) {
-                    Log.e( "LogoutAction:Error", "Logout failure" );
+                    Log.e( "LogoutAction:", "Logout failure" );
                     e.printStackTrace();
                 }
             }
@@ -151,9 +155,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 fragment = new PrescriptionsFragment();
                 break;
 
-            case R.id.navigation_history:
-                fragment = new HistoryFragment();
-                break;
+//            case R.id.navigation_history:
+//                fragment = new HistoryFragment();
+//                break;
 
             default:
                 fragment = new HomeFragment();

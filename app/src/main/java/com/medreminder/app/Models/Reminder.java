@@ -1,4 +1,4 @@
-package com.medreminder.app;
+package com.medreminder.app.Models;
 
 
 import java.io.Serializable;

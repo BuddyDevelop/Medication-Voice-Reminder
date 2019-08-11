@@ -1,4 +1,4 @@
-package com.medreminder.app;
+package com.medreminder.app.Models;
 
 public class User {
     private String name, email, pesel;

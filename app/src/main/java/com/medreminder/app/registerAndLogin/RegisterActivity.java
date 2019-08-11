@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.medreminder.app.R;
 
+
 public class RegisterActivity extends AppCompatActivity {
 
     private FragmentManager fragmentManager;

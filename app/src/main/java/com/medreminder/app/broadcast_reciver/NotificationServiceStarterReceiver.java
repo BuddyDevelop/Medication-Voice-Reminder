@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.medreminder.app.Database.DBManager;
-import com.medreminder.app.Reminder;
+import com.medreminder.app.Models.Reminder;
 import com.medreminder.app.RemindersManager;
 
 import java.sql.SQLException;
@@ -30,7 +30,7 @@ public class NotificationServiceStarterReceiver extends BroadcastReceiver {
 //        PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.PARTIAL_WAKE_LOCK, "YOUR TAG");
 //        wl.acquire();
 
-        //create alarms for all medications
+        //create alarms for all ReceiptMedication
         switch ( intent.getAction() ) {
             case Intent.ACTION_TIMEZONE_CHANGED:
             case Intent.ACTION_TIME_CHANGED:

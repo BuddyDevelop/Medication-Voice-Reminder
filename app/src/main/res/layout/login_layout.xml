@@ -16,7 +16,7 @@
             android:gravity="center"
             android:padding="10dp"
             android:text="@string/login"
-            android:textColor="@color/cardview_light_background"
+            android:textColor="@color/ic_white_background"
             android:textSize="25sp"
             android:textStyle="bold" />
 
@@ -33,14 +33,14 @@
             android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:padding="10dp"
-            android:textColor="@color/cardview_light_background"
-            android:textColorHint="@color/cardview_light_background"
+            android:textColor="@color/ic_white_background"
+            android:textColorHint="@color/ic_white_background"
             android:textSize="16sp" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="@color/cardview_light_background" />
+            android:background="@color/ic_white_background" />
 
         <EditText
             android:id="@+id/login_password"
@@ -54,8 +54,8 @@
             android:hint="@string/password"
             android:inputType="textPassword"
             android:padding="10dp"
-            android:textColor="@color/cardview_light_background"
-            android:textColorHint="@color/cardview_light_background"
+            android:textColor="@color/ic_white_background"
+            android:textColorHint="@color/ic_white_background"
             android:textSize="16sp" />
 
         <LinearLayout
@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/show_pswd"
-                android:textColor="@color/cardview_light_background"
+                android:textColor="@color/ic_white_background"
                 android:textSize="14sp" />
 
             <TextView
@@ -82,7 +82,7 @@
                 android:gravity="end"
                 android:padding="5dp"
                 android:text="@string/forgot_pswd"
-                android:textColor="@color/cardview_light_background"
+                android:textColor="@color/ic_white_background"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -95,7 +95,7 @@
             android:backgroundTint="@color/cardview_dark_background"
             android:padding="3dp"
             android:text="@string/login"
-            android:textColor="@color/cardview_light_background"
+            android:textColor="@color/ic_white_background"
             android:textSize="17sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -109,8 +109,8 @@
         android:layout_marginTop="15dp"
         android:gravity="center"
         android:padding="5dp"
-        android:text="@string/newUser"
-        android:textColor="@color/cardview_light_background"
+        android:text="@string/new_user"
+        android:textColor="@color/ic_white_background"
         android:textSize="15sp" />
 
     <ProgressBar

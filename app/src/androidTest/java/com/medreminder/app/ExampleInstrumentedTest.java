@@ -1,4 +1,4 @@
-package com.medreminder.app.pracainzynierska;
+package com.medreminder.app;
 
 import android.content.Context;
 
@@ -22,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals( "com.example.grzeiek.pracainzynierska", appContext.getPackageName() );
+        assertEquals( "com.medreminder.app.pracainzynierska", appContext.getPackageName() );
     }
 }

@@ -24,9 +24,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
-import com.medreminder.app.MainActivity;
+import com.medreminder.app.Activities.MainActivity;
+import com.medreminder.app.Models.User;
 import com.medreminder.app.R;
-import com.medreminder.app.User;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

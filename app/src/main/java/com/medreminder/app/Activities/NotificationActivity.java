@@ -1,12 +1,16 @@
-package com.medreminder.app;
+package com.medreminder.app.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.medreminder.app.Models.Reminder;
+import com.medreminder.app.R;
+
 /**
- * Activity shows on notification click
+ *  Shows Activity on notification click
  */
 
 public class NotificationActivity extends AppCompatActivity {

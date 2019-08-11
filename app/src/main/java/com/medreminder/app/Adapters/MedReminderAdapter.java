@@ -1,4 +1,4 @@
-package com.medreminder.app.Adapter;
+package com.medreminder.app.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,9 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-
+import com.medreminder.app.Models.Reminder;
 import com.medreminder.app.R;
-import com.medreminder.app.Reminder;
 
 import java.util.ArrayList;
 

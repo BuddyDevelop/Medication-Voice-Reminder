@@ -5,4 +5,5 @@
     <dimen name="text_medium">18sp</dimen>
     <dimen name="text_big">20sp</dimen>
     <dimen name="eight_dp">8dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

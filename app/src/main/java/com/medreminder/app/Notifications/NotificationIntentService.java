@@ -14,10 +14,10 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.legacy.content.WakefulBroadcastReceiver;
 
+import com.medreminder.app.Activities.NotificationActivity;
 import com.medreminder.app.Database.DBManager;
-import com.medreminder.app.NotificationActivity;
+import com.medreminder.app.Models.Reminder;
 import com.medreminder.app.R;
-import com.medreminder.app.Reminder;
 import com.medreminder.app.TTS;
 import com.medreminder.app.broadcast_reciver.NotificationEventReceiver;
 

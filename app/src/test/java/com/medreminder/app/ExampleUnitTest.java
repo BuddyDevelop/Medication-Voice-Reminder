@@ -1,4 +1,4 @@
-package com.medreminder.app.pracainzynierska;
+package com.medreminder.app;
 
 import org.junit.Test;
 

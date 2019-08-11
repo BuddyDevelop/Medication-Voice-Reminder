@@ -6,7 +6,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.medreminder.app.MainActivity">
+    tools:context="com.medreminder.app.Activities.MainActivity">
 
 
     <!--TOP navBar-->
@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        android:background="@color/cardview_light_background"
+        android:background="@color/ic_white_background"
         tools:openDrawer="start">
 
     <include
@@ -31,7 +31,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        android:background="@color/cardview_light_background"
+        android:background="@color/ic_white_background"
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/activity_drawer" />
     </com.rupins.drawercardbehaviour.CardDrawerLayout>

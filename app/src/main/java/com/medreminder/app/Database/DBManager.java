@@ -7,7 +7,7 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.medreminder.app.Reminder;
+import com.medreminder.app.Models.Reminder;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -33,35 +33,35 @@ public class DBManager {
     }
 
     public void delete( long _id ) {
-        database.delete( myDbHelper.TABLE_NAME, myDbHelper._ID + "=" + _id, null );
+        database.delete( MyDbHelper.TABLE_NAME, MyDbHelper._ID + "=" + _id, null );
     }
 
     public long insert( String medName, String medTime, String medDose, String medDoseUnit, String days ) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put( myDbHelper.MEDICATION_NAME, medName );
-        contentValues.put( myDbHelper.MEDICATION_TIME, medTime );
-        contentValues.put( myDbHelper.MEDICATION_DOSE, medDose );
-        contentValues.put( myDbHelper.MEDICATION_DOSE_UNIT, medDoseUnit );
-        contentValues.put( myDbHelper.MEDICATION_DAYS, days );
+        contentValues.put( MyDbHelper.MEDICATION_NAME, medName );
+        contentValues.put( MyDbHelper.MEDICATION_TIME, medTime );
+        contentValues.put( MyDbHelper.MEDICATION_DOSE, medDose );
+        contentValues.put( MyDbHelper.MEDICATION_DOSE_UNIT, medDoseUnit );
+        contentValues.put( MyDbHelper.MEDICATION_DAYS, days );
 
         //if -1 then error occured
         long insertedRowid;
 
-        insertedRowid = database.insert( myDbHelper.TABLE_NAME, null, contentValues );
+        insertedRowid = database.insert( MyDbHelper.TABLE_NAME, null, contentValues );
         return insertedRowid;
     }
 
     public boolean reminderExists( String medName, String medTime, String medDoseUnit, String medDays ) {
-        String[] columnNames = new String[]{ myDbHelper.MEDICATION_NAME,
-                myDbHelper.MEDICATION_TIME, myDbHelper.MEDICATION_DOSE_UNIT, myDbHelper.MEDICATION_DAYS };
+        String[] columnNames = new String[]{ MyDbHelper.MEDICATION_NAME,
+                MyDbHelper.MEDICATION_TIME, MyDbHelper.MEDICATION_DOSE_UNIT, MyDbHelper.MEDICATION_DAYS };
 
-        String whereClause = myDbHelper.MEDICATION_NAME + " = ? AND " + myDbHelper.MEDICATION_TIME + " = ? AND " +
-                myDbHelper.MEDICATION_DOSE_UNIT + " = ? AND " + myDbHelper.MEDICATION_DAYS + " like '%" + medDays + "%';";
-//        myDbHelper.MEDICATION_DAYS + " = ? ";
+        String whereClause = MyDbHelper.MEDICATION_NAME + " = ? AND " + MyDbHelper.MEDICATION_TIME + " = ? AND " +
+                MyDbHelper.MEDICATION_DOSE_UNIT + " = ? AND " + MyDbHelper.MEDICATION_DAYS + " like '%" + medDays + "%';";
+//        MyDbHelper.MEDICATION_DAYS + " = ? ";
 
         String[] whereArgs = { medName, medTime, medDoseUnit };
 
-        Cursor cursor = database.query( myDbHelper.TABLE_NAME, columnNames, whereClause, whereArgs,
+        Cursor cursor = database.query( MyDbHelper.TABLE_NAME, columnNames, whereClause, whereArgs,
                 null,
                 null,
                 null,
@@ -75,18 +75,18 @@ public class DBManager {
     }
 
     public int countRecords() {
-//        String sql = "SELECT COUNT( * ) FROM " + myDbHelper.TABLE_NAME + ";";
+//        String sql = "SELECT COUNT( * ) FROM " + MyDbHelper.TABLE_NAME + ";";
 
-        Long numRows = DatabaseUtils.queryNumEntries( database, myDbHelper.TABLE_NAME );
+        Long numRows = DatabaseUtils.queryNumEntries( database, MyDbHelper.TABLE_NAME );
         return numRows.intValue();
     }
 
     public ArrayList<Reminder> fetchAll() {
-        String[] columnNames = new String[]{ myDbHelper._ID, myDbHelper.MEDICATION_NAME,
-                myDbHelper.MEDICATION_TIME, myDbHelper.MEDICATION_DOSE,
-                myDbHelper.MEDICATION_DOSE_UNIT, myDbHelper.MEDICATION_DAYS, myDbHelper.MEDICATION_ALARM_ID };
+        String[] columnNames = new String[]{ MyDbHelper._ID, MyDbHelper.MEDICATION_NAME,
+                MyDbHelper.MEDICATION_TIME, MyDbHelper.MEDICATION_DOSE,
+                MyDbHelper.MEDICATION_DOSE_UNIT, MyDbHelper.MEDICATION_DAYS, MyDbHelper.MEDICATION_ALARM_ID };
 
-        Cursor cursor = database.query( myDbHelper.TABLE_NAME, columnNames, null, null, null, null, myDbHelper.MEDICATION_TIME );
+        Cursor cursor = database.query( MyDbHelper.TABLE_NAME, columnNames, null, null, null, null, MyDbHelper.MEDICATION_TIME );
 
         ArrayList<Reminder> reminderList = new ArrayList<>();
 
@@ -111,11 +111,11 @@ public class DBManager {
     public Cursor fetchById( int id ) {
         String[] selectionArgs = { String.valueOf( id ) };
 
-        String[] columns = new String[]{ myDbHelper._ID, myDbHelper.MEDICATION_NAME,
-                myDbHelper.MEDICATION_TIME, myDbHelper.MEDICATION_DOSE,
-                myDbHelper.MEDICATION_DOSE_UNIT, myDbHelper.MEDICATION_DAYS };
+        String[] columns = new String[]{ MyDbHelper._ID, MyDbHelper.MEDICATION_NAME,
+                MyDbHelper.MEDICATION_TIME, MyDbHelper.MEDICATION_DOSE,
+                MyDbHelper.MEDICATION_DOSE_UNIT, MyDbHelper.MEDICATION_DAYS };
 
-        Cursor cursor = database.query( myDbHelper.TABLE_NAME, columns,
+        Cursor cursor = database.query( MyDbHelper.TABLE_NAME, columns,
                 " _id = ? ",
                 selectionArgs,
                 null,
@@ -133,35 +133,35 @@ public class DBManager {
         String[] selectionArgs = { String.valueOf( id ) };
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put( myDbHelper.MEDICATION_NAME, medName );
-        contentValues.put( myDbHelper.MEDICATION_TIME, medTime );
-        contentValues.put( myDbHelper.MEDICATION_DOSE, medDose );
-        contentValues.put( myDbHelper.MEDICATION_DOSE_UNIT, medDoseUnit );
-        contentValues.put( myDbHelper.MEDICATION_DAYS, days );
+        contentValues.put( MyDbHelper.MEDICATION_NAME, medName );
+        contentValues.put( MyDbHelper.MEDICATION_TIME, medTime );
+        contentValues.put( MyDbHelper.MEDICATION_DOSE, medDose );
+        contentValues.put( MyDbHelper.MEDICATION_DOSE_UNIT, medDoseUnit );
+        contentValues.put( MyDbHelper.MEDICATION_DAYS, days );
 
-        int i = database.update( myDbHelper.TABLE_NAME, contentValues, " _id = ? ", selectionArgs );
+        int i = database.update( MyDbHelper.TABLE_NAME, contentValues, " _id = ? ", selectionArgs );
         return i;
     }
 
     public void deleteAll() {
-        database.delete( myDbHelper.TABLE_NAME, null, null );
+        database.delete( MyDbHelper.TABLE_NAME, null, null );
     }
 
     public void insertAlarmId( long id, String alarmIds ) {
         String[] selectionArgs = { String.valueOf( id ) };
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put( myDbHelper.MEDICATION_ALARM_ID, alarmIds );
+        contentValues.put( MyDbHelper.MEDICATION_ALARM_ID, alarmIds );
 
-        database.update( myDbHelper.TABLE_NAME, contentValues, " _id = ? ", selectionArgs );
+        database.update( MyDbHelper.TABLE_NAME, contentValues, " _id = ? ", selectionArgs );
     }
 
     public String getAlarmId( long id ) {
         String[] selectionArgs = { String.valueOf( id ) };
-        String[] columns = new String[]{ myDbHelper.MEDICATION_ALARM_ID };
+        String[] columns = new String[]{ MyDbHelper.MEDICATION_ALARM_ID };
         String result = "";
 
-        Cursor cursor = database.query( myDbHelper.TABLE_NAME, columns,
+        Cursor cursor = database.query( MyDbHelper.TABLE_NAME, columns,
                 " _id = ? ",
                 selectionArgs,
                 null,
@@ -177,13 +177,13 @@ public class DBManager {
     }
 
     public Reminder getReminderByAlarmId( int alarmId ) {
-        String[] columns = new String[]{ myDbHelper.MEDICATION_NAME, myDbHelper.MEDICATION_TIME, myDbHelper.MEDICATION_DOSE,
-                myDbHelper.MEDICATION_DOSE_UNIT, myDbHelper.MEDICATION_DAYS };
-        String whereClause = myDbHelper.MEDICATION_ALARM_ID + " LIKE '%" + alarmId + "%';";
+        String[] columns = new String[]{ MyDbHelper.MEDICATION_NAME, MyDbHelper.MEDICATION_TIME, MyDbHelper.MEDICATION_DOSE,
+                MyDbHelper.MEDICATION_DOSE_UNIT, MyDbHelper.MEDICATION_DAYS };
+        String whereClause = MyDbHelper.MEDICATION_ALARM_ID + " LIKE '%" + alarmId + "%';";
 
         Reminder reminder = new Reminder();
 
-        Cursor cursor = database.query( myDbHelper.TABLE_NAME, columns,
+        Cursor cursor = database.query( MyDbHelper.TABLE_NAME, columns,
                 whereClause,
                 null,
                 null,
@@ -204,13 +204,13 @@ public class DBManager {
     }
 
     public ArrayList<Reminder> getRemindersByTime( String medName, String medTime ) {
-        String[] columns = new String[]{ myDbHelper.MEDICATION_NAME, myDbHelper.MEDICATION_TIME, myDbHelper.MEDICATION_DOSE,
-                myDbHelper.MEDICATION_DOSE_UNIT, myDbHelper.MEDICATION_DAYS };
-        String whereClause = myDbHelper.MEDICATION_NAME + " != ? AND " + myDbHelper.MEDICATION_TIME + " = ?;";
+        String[] columns = new String[]{ MyDbHelper.MEDICATION_NAME, MyDbHelper.MEDICATION_TIME, MyDbHelper.MEDICATION_DOSE,
+                MyDbHelper.MEDICATION_DOSE_UNIT, MyDbHelper.MEDICATION_DAYS };
+        String whereClause = MyDbHelper.MEDICATION_NAME + " != ? AND " + MyDbHelper.MEDICATION_TIME + " = ?;";
         String[] whereArgs = new String[] { medName, medTime };
         ArrayList<Reminder> reminderList = new ArrayList<>();
 
-        Cursor cursor = database.query( myDbHelper.TABLE_NAME, columns,
+        Cursor cursor = database.query( MyDbHelper.TABLE_NAME, columns,
                 whereClause,
                 whereArgs,
                 null,

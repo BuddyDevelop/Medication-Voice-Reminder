@@ -1,4 +1,4 @@
-package com.medreminder.app;
+package com.medreminder.app.Fragments;
 
 
 import android.content.Intent;
@@ -13,8 +13,11 @@ import android.widget.ListView;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.medreminder.app.Adapter.MedReminderAdapter;
+import com.medreminder.app.Activities.AddMedicineActivity;
+import com.medreminder.app.Adapters.MedReminderAdapter;
 import com.medreminder.app.Database.DBManager;
+import com.medreminder.app.Models.Reminder;
+import com.medreminder.app.R;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

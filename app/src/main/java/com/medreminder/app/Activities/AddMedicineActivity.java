@@ -1,4 +1,4 @@
-package com.medreminder.app;
+package com.medreminder.app.Activities;
 
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
@@ -27,6 +27,9 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.medreminder.app.Database.DBManager;
+import com.medreminder.app.Models.Reminder;
+import com.medreminder.app.R;
+import com.medreminder.app.RemindersManager;
 
 import java.sql.SQLException;
 import java.util.Calendar;
@@ -198,6 +201,7 @@ public class AddMedicineActivity extends AppCompatActivity {
                 Intent intent = new Intent( this, MainActivity.class );
                 Toast.makeText( this, "Medication has been edited", Toast.LENGTH_SHORT ).show();
                 startActivity( intent );
+                finish();
             } else {
                 Toast.makeText( this, "There is a medication with such parameters", Toast.LENGTH_SHORT ).show();
             }
@@ -229,6 +233,7 @@ public class AddMedicineActivity extends AppCompatActivity {
                     addReminder( rowInserted, stringMedDays, time );
                     Intent intent = new Intent( this, MainActivity.class );
                     startActivity( intent );
+                    finish();
                 } else
                     Toast.makeText( this, "There is reminder with such name and remind time", Toast.LENGTH_LONG ).show();
 

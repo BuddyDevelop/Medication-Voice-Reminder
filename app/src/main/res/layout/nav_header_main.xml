@@ -38,7 +38,7 @@
         android:backgroundTint="@android:color/transparent"
         android:layout_gravity="center_vertical"
         android:textSize="@dimen/text_medium"
-        android:textColor="@color/cardview_light_background"
+        android:textColor="@color/ic_white_background"
         android:text="@string/logout"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         />

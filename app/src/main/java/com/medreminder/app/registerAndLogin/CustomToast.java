@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.medreminder.app.R;
 
+
 public class CustomToast {
 
     // Custom Toast Method
