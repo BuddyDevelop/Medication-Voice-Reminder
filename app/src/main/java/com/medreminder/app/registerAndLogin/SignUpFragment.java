@@ -26,6 +26,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.medreminder.app.Activities.MainActivity;
 import com.medreminder.app.Models.User;
+import com.medreminder.app.MyFirebaseMessagingService;
 import com.medreminder.app.R;
 
 import java.util.regex.Matcher;
@@ -207,6 +208,8 @@ public class SignUpFragment extends Fragment implements OnClickListener {
                                             if ( task.isSuccessful() ) {
                                                 Toast.makeText( getActivity(), R.string.registration_successful, Toast.LENGTH_SHORT ).show();
                                                 userAlreadyLogged( getContext() );
+                                                //get app token and put to database so user can receive notifications from FCM
+                                                MyFirebaseMessagingService.getToken();
                                             } else
                                                 new CustomToast().showToast( getActivity(), view,
                                                         "Something went wrong with registration, check your connection" );

@@ -57,35 +57,6 @@ public class MedicationsFragment extends Fragment {
 
         fetchMedicationsFromFirebase( view, container, mNoData);
 
-
-
-//        mFirebaseDBHelper.getMedications( new FirebaseDBHelper.DataStatus() {
-//            @Override
-//            public void onDataLoaded( List<Medication> ReceiptMedication, List<String> keys ) {
-//                view.findViewById( R.id.loading_medications_progressBar ).setVisibility( View.GONE );
-//                new RecyclerViewMedicationsAdapter().initialize( mRecyclerView, container.getContext(), ReceiptMedication, keys  );
-//
-//                if( ReceiptMedication.size() == 0 )
-//                    mNoData.setVisibility( View.VISIBLE );
-//                else
-//                    mNoData.setVisibility( View.GONE );
-//            }
-//
-//            @Override
-//            public void onDataInserted() {
-//
-//            }
-//
-//            @Override
-//            public void onDataUpdated() {
-//
-//            }
-//
-//            @Override
-//            public void onDataDeleted() {
-//
-//            }
-//        } );
         // Inflate the layout for this fragment
         return view;
     }
@@ -120,7 +91,8 @@ public class MedicationsFragment extends Fragment {
 
                         @Override
                         public void onCancelled( @NonNull DatabaseError databaseError ) {
-                            new CustomToast().showToast( container.getContext(), view, "Failed to load ReceiptMedication." );
+                            //executed if user has no permissions to read data
+                            new CustomToast().showToast( container.getContext(), view, "Failed to load medications." );
                         }
                     } );
                 }

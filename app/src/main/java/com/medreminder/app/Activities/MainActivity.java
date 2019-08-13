@@ -22,12 +22,11 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseAuth;
 import com.medreminder.app.Fragments.HomeFragment;
 import com.medreminder.app.Fragments.MedicationsFragment;
 import com.medreminder.app.Fragments.PrescriptionsFragment;
+import com.medreminder.app.MyFirebaseMessagingService;
 import com.medreminder.app.R;
-import com.medreminder.app.registerAndLogin.RegisterActivity;
 import com.rupins.drawercardbehaviour.CardDrawerLayout;
 
 
@@ -111,11 +110,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             @Override
             public void onClick( View view ) {
                 try {
-                    Log.e( "LogoutAction:", "Logout try" );
-                    FirebaseAuth.getInstance().signOut();
-                    Intent intent = new Intent( getApplicationContext(), RegisterActivity.class );
-                    startActivity( intent );
-                    finish();  // because we do not want come here on back pressed
+                    //on logout click delete app token so this device does not receive notifications from FCM
+                    MyFirebaseMessagingService.deleteToken( getApplicationContext() );
+//                    Log.e( "LogoutAction:", "Logout try" );
+//                    FirebaseAuth.getInstance().signOut();
+//                    Intent intent = new Intent( getApplicationContext(), RegisterActivity.class );
+//                    startActivity( intent );
+//                    finish();  // because we do not want come here on back pressed
                 } catch ( Exception e ) {
                     Log.e( "LogoutAction:", "Logout failure" );
                     e.printStackTrace();
@@ -176,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             super.onBackPressed();
         }
     }
-
+    //dialog in drawer to check if user want to have spoken notifications
     private void speakNotificationSettingsDialog() {
         final SharedPreferences userPreferences = getSharedPreferences( "speak_notification_settings", MODE_PRIVATE );
         final String[] speakNotificationSettings = getResources().getStringArray( R.array.speak_notifications_settings_dialog );
@@ -218,7 +219,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         builder.show();
     }
-
+    //dialog in drawer for notification settings
     private void enableSpeakNotificationDialog() {
         final SharedPreferences userPreferences = getSharedPreferences( "enable_speak_notification", MODE_PRIVATE );
         final boolean[] checked = new boolean[ 1 ];

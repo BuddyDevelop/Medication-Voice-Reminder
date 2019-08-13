@@ -2,11 +2,12 @@ package com.medreminder.app.Database;
 
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.medreminder.app.Models.Medication;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FirebaseDBHelper {
     public FirebaseDatabase mFirebaseDB;
@@ -15,12 +16,6 @@ public class FirebaseDBHelper {
     public DatabaseReference mFirebaseReceiptsReference;
     public FirebaseAuth mAuth;
 
-    public interface DataStatus{
-        void onDataLoaded( List<Medication> medications, List<String> keys);
-        void onDataInserted();
-        void onDataUpdated();
-        void onDataDeleted();
-    }
 
     public FirebaseDBHelper(  ) {
         mFirebaseDB = FirebaseDatabase.getInstance();
@@ -30,47 +25,19 @@ public class FirebaseDBHelper {
         mFirebaseReceiptsReference = mFirebaseDB.getReference("receipts" );
     }
 
+    //update user's app token in database
+    public static void updateUserToken( String token ){
+        FirebaseDBHelper mFirebaseDBHelper = new FirebaseDBHelper();
+        FirebaseUser mAuthCurrentUser = mFirebaseDBHelper.mAuth.getCurrentUser();
+        if( mAuthCurrentUser == null ){
+            return;
+        }
 
-//    public void getMedications( final DataStatus dataStatus){
-//        DatabaseReference usersRef = mFirebaseDB.getReference("Users" );
-//
-//        //get user data to retrieve pesel
-//        usersRef.child( userId ).addValueEventListener( new ValueEventListener() {
-//            @Override
-//            public void onDataChange( @NonNull DataSnapshot dataSnapshot ) {
-//                if( dataSnapshot.exists()){
-//                    user = dataSnapshot.getValue(User.class);
-//                    userPesel = user.getPesel();
-//
-//                    //user has been found in db so look for ReceiptMedication
-//                    mFirebaseMedicationReference.child( userPesel ).addValueEventListener( new ValueEventListener() {
-//                        @Override
-//                        public void onDataChange( @NonNull DataSnapshot dataSnapshot ) {
-//                            ReceiptMedication.clear();
-//                            List<String> keys = new ArrayList<>(  );
-//
-//                            for( DataSnapshot keyNode : dataSnapshot.getChildren()){
-//                                keys.add( keyNode.getKey() );
-//                                Medication medication = keyNode.getValue(Medication.class);
-//                                ReceiptMedication.add( medication );
-//                            }
-//                            dataStatus.onDataLoaded( ReceiptMedication, keys );
-//                        }
-//
-//                        @Override
-//                        public void onCancelled( @NonNull DatabaseError databaseError ) {
-//                            Log.w("getMeds:onCancelled", databaseError.toException());
-//                        }
-//
-//                    } );
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled( @NonNull DatabaseError databaseError ) {
-//                Log.w("getUser:onCancelled", databaseError.toException());
-//
-//            }
-//        } );
-//    }
+        String userId = mAuthCurrentUser.getUid();
+        DatabaseReference userRef = mFirebaseDBHelper.mFirebaseUsersReference.child( userId );
+        Map<String, Object> updateToken = new HashMap<>( );
+        updateToken.put( "token", token);
+
+        userRef.updateChildren(updateToken);
+    }
 }

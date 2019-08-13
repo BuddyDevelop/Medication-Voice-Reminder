@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -45,6 +46,7 @@ public class PrescriptionsFragment extends Fragment {
     public View onCreateView( LayoutInflater inflater, ViewGroup container,
                               Bundle savedInstanceState ) {
         final View view = inflater.inflate( R.layout.fragment_prescriptions, container, false );
+        final TextView mNoData = view.findViewById( R.id.receipts_no_data_txtView );
         mRecyclerView = view.findViewById( R.id.receipts_recyclerview );
 
         mFirebaseDBHelper = new FirebaseDBHelper();
@@ -54,13 +56,13 @@ public class PrescriptionsFragment extends Fragment {
 
         userId = mUser.getUid();
 
-        fetchReceiptsFromFirebase( view, container );
+        fetchReceiptsFromFirebase( view, container, mNoData );
 
         // Inflate the layout for this fragment
         return view;
     }
 
-    private void fetchReceiptsFromFirebase( final View view, final ViewGroup container ) {
+    private void fetchReceiptsFromFirebase( final View view, final ViewGroup container, final TextView mNoData ) {
         mFirebaseDBHelper.mFirebaseUsersReference.child( userId ).addValueEventListener( new ValueEventListener() {
             @Override
             public void onDataChange( @NonNull DataSnapshot dataSnapshot ) {
@@ -100,10 +102,10 @@ public class PrescriptionsFragment extends Fragment {
                             view.findViewById( R.id.loading_receipts_progressBar ).setVisibility( View.GONE );
                             new RecyclerViewReceiptsAdapter().initialize( mRecyclerView, container.getContext(), receipts, keys  );
 
-//                            if( receipts.size() == 0 )
-//                                mNoData.setVisibility( View.VISIBLE );
-//                            else
-//                                mNoData.setVisibility( View.GONE );
+                            if( receipts.size() == 0 )
+                                mNoData.setVisibility( View.VISIBLE );
+                            else
+                                mNoData.setVisibility( View.GONE );
                         }
 
                         @Override

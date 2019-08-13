@@ -30,6 +30,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.medreminder.app.MyFirebaseMessagingService;
 import com.medreminder.app.R;
 
 import java.util.regex.Matcher;
@@ -194,6 +195,7 @@ public class LoginFragment extends Fragment implements OnClickListener {
                             Log.d( "signIn: success", "signInWithEmail:success" );
                             FirebaseUser user = mAuth.getCurrentUser();
                             userAlreadyLogged( getContext() );
+                            MyFirebaseMessagingService.getToken();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w( "signIn: fail", "signInWithEmail:failure", task.getException() );
