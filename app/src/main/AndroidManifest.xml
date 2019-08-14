@@ -30,19 +30,22 @@
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".Activities.AddMedicineActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:isScrollContainer="true"
-            android:theme="@style/AppTheme.ActionBar.Transparent"
             android:windowSoftInputMode="adjustPan">
         </activity>
         <activity
             android:name=".Activities.NotificationActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar">
+        </activity>
+        <activity
+            android:name=".Activities.ProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <service

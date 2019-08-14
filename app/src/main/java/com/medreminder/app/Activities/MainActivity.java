@@ -12,6 +12,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -22,9 +23,15 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+import com.medreminder.app.Database.FirebaseDBHelper;
 import com.medreminder.app.Fragments.HomeFragment;
 import com.medreminder.app.Fragments.MedicationsFragment;
 import com.medreminder.app.Fragments.PrescriptionsFragment;
+import com.medreminder.app.Models.User;
 import com.medreminder.app.MyFirebaseMessagingService;
 import com.medreminder.app.R;
 import com.rupins.drawercardbehaviour.CardDrawerLayout;
@@ -44,6 +51,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         loadFragment( new HomeFragment() );
         logout();
 
+        //put username in drawer's header, next to logout btn
+        getUserName();
+
+
         //getting bottom navigation view and attaching the listener
         BottomNavigationView navigation = findViewById( R.id.navigation );
         navigation.setOnNavigationItemSelectedListener( this );
@@ -53,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         Toolbar toolbar = findViewById( R.id.toolbar );
         setSupportActionBar( toolbar );
 
+
         //Drawer with animations
         drawer = ( CardDrawerLayout ) findViewById( R.id.drawer_layout );
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -60,12 +72,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         drawer.addDrawerListener( toggle );
         toggle.syncState();
 
+
         //drawer menu item click actions
         NavigationView navigationView = findViewById( R.id.nav_view );
         navigationView.setNavigationItemSelectedListener( new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected( @NonNull MenuItem item ) {
                 switch ( item.getItemId() ) {
+                    case R.id.profile_settings:
+                        Intent profileActivityIntent = new Intent( getApplicationContext(), ProfileActivity.class);
+                        startActivity( profileActivityIntent );
+                        break;
                     case R.id.nav_text_to_speech:
                         //Open Android Text-To-Speech Settings
                         if ( Build.VERSION.SDK_INT >= 14 ) {
@@ -125,6 +142,35 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         } );
     }
 
+    private void getUserName(){
+        runOnUiThread( new Runnable() {
+            @Override
+            public void run() {
+                FirebaseDBHelper mFirebaseDBHelper = new FirebaseDBHelper();
+                FirebaseUser user = mFirebaseDBHelper.mAuth.getCurrentUser();
+                if( user == null )
+                    return;
+
+                String userId = user.getUid();
+                mFirebaseDBHelper.mFirebaseUsersReference.child( userId ).addListenerForSingleValueEvent( new ValueEventListener() {
+                    @Override
+                    public void onDataChange( @NonNull DataSnapshot dataSnapshot ) {
+                        User mUser = dataSnapshot.getValue(User.class);
+                        NavigationView navigationView = findViewById( R.id.nav_view );
+                        View headerLayout = navigationView.getHeaderView( 0 );
+
+                        TextView mUserName = headerLayout.findViewById( R.id.drawer_user_profile_name );
+                        mUserName.setText( mUser.getName() );
+                    }
+
+                    @Override
+                    public void onCancelled( @NonNull DatabaseError databaseError ) {
+
+                    }
+                } );
+            }
+        } );
+    }
 
     private boolean loadFragment( Fragment fragment ) {
         //switching fragment

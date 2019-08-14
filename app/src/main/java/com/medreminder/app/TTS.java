@@ -32,7 +32,7 @@ public class TTS extends Service implements TextToSpeech.OnInitListener {
         if ( intent != null )
             if ( intent.getStringArrayListExtra( "ttsContent" ) != null )
                 spokenText = intent.getStringArrayListExtra( "ttsContent" );
-        return START_REDELIVER_INTENT;
+        return START_NOT_STICKY;
     }
 
 //    @Override
