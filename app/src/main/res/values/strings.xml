@@ -94,4 +94,14 @@
     <string name="logout">Logout</string>
     <string name="forgot_pswd_send">We have sent you instructions to reset your password on email!</string>
     <string name="no_data">No data</string>
+
+    <!--Notifications-->
+    <string name="notification_from">Notification from </string>
+    <string name="notification_it_says">It says: take </string>
+    <string name="notification_dosage"> the dosage is </string>
+    <string name="new_medication">You have new medication prescribed by doctor</string>
+    <string name="new_prescription_title">You have new prescription!</string>
+    <string name="new_prescription">You have new prescription prescribed by doctor</string>
+    <string name="realize_prescription_to">Realize prescription to </string>
+    <string name="new_medication_name">Medication name is</string>
 </resources>

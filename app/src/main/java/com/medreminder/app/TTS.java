@@ -22,26 +22,20 @@ public class TTS extends Service implements TextToSpeech.OnInitListener {
 
     @Override
     public void onCreate() {
-        mTts = new TextToSpeech( this, this );
+
     }
 
 
     @Override
     public int onStartCommand( Intent intent, int flags, int startId ) {
         super.onStartCommand( intent, flags, startId );
+        mTts = new TextToSpeech( this, this );
         if ( intent != null )
             if ( intent.getStringArrayListExtra( "ttsContent" ) != null )
                 spokenText = intent.getStringArrayListExtra( "ttsContent" );
-        return START_NOT_STICKY;
+        return START_STICKY;
     }
 
-//    @Override
-//    public void onStart( Intent intent, int startId ) {
-//        super.onStart( intent, startId );
-//        if ( intent != null )
-//            if ( intent.getStringArrayListExtra( "ttsContent" ) != null )
-//                spokenText = intent.getStringArrayListExtra( "ttsContent" );
-//    }
 
     @Override
     public void onInit( int status ) {
@@ -50,13 +44,11 @@ public class TTS extends Service implements TextToSpeech.OnInitListener {
             if ( result != TextToSpeech.LANG_MISSING_DATA && result != TextToSpeech.LANG_NOT_SUPPORTED ) {
                 Log.d( "Init", "Success" );
 
-                // wait a little for the initialization to complete and to speak if there are multiple alarms on same time
-//                Handler handler = new Handler();
-//                handler.postDelayed( new Runnable() {
-//                    @Override
-//                    public void run() {
                 // speak all notifications which have same reminder time and day
                 if( spokenText == null || spokenText.isEmpty() )
+                    return;
+
+                if( mTts.isSpeaking() )
                     return;
 
                 for ( String text : spokenText ) {
@@ -64,8 +56,6 @@ public class TTS extends Service implements TextToSpeech.OnInitListener {
                     mTts.playSilentUtterance( 2000, TextToSpeech.QUEUE_ADD, null );
                     mTts.speak( text, TextToSpeech.QUEUE_ADD, null, null );
                 }
-//                    }
-//                }, 2000 );
             }
         } else {
             Log.d( getClass().getSimpleName(), " Could not initialize TextToSpeech" );
@@ -78,9 +68,7 @@ public class TTS extends Service implements TextToSpeech.OnInitListener {
             mTts.stop();
             mTts.shutdown();
 
-//            synchronized ( this ) {
             isIntentServiceRunning = false;
-//            }
         }
         super.onDestroy();
     }

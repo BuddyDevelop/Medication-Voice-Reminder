@@ -181,7 +181,8 @@ public class NotificationIntentService extends IntentService {
     }
 
     private String returnNotificationContent( String medName, String medDose, String medDoseUnit ) {
-        return "Notification from " + getString( R.string.app_name ) + ". It says: take " + medName +
-                " the dosage is " + medDose + " " + medDoseUnit;
+        return getString( R.string.notification_from ) + getString( R.string.app_name ) + ". " +
+                getString( R.string.notification_it_says ) + medName +
+                getString( R.string.notification_dosage ) + medDose + " " + medDoseUnit;
     }
 }

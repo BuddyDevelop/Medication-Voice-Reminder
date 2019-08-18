@@ -25,6 +25,9 @@ public class NotificationActivity extends AppCompatActivity {
         if( intent == null )
             return;
 
+        if( !intent.hasExtra( "notificationContent" ))
+            return;
+
         if( intent.getExtras().getSerializable( "notificationContent" ) != null ){
             notificationActivityContent = ( TextView ) findViewById( R.id.notificationActivityContent );
             Reminder reminder = ( Reminder ) intent.getExtras().getSerializable( "notificationContent" );
