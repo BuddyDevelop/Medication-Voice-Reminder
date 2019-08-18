@@ -4,12 +4,10 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.util.Log;
 
-import androidx.core.app.AlarmManagerCompat;
 import androidx.legacy.content.WakefulBroadcastReceiver;
 
 import com.medreminder.app.Notifications.NotificationIntentService;
@@ -47,14 +45,14 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver {
         PendingIntent alarmIntent = getWorkingPendingIntent( context, alarmId );
         alarmManager.cancel( alarmIntent );
 
-        if( Build.VERSION.SDK_INT < Build.VERSION_CODES.M )
+//        if( Build.VERSION.SDK_INT < Build.VERSION_CODES.M )
         alarmManager.setRepeating( AlarmManager.RTC_WAKEUP,
                 when,
                 AlarmManager.INTERVAL_DAY,
                 alarmIntent );
-        else {
-            AlarmManagerCompat.setAlarmClock( alarmManager, when, alarmIntent, alarmIntent );
-        }
+//        else {
+//            AlarmManagerCompat.setAlarmClock( alarmManager, when, alarmIntent, alarmIntent );
+//        }
     }
 
     public static void cancelAlarm( Context context, int alarmId ) {

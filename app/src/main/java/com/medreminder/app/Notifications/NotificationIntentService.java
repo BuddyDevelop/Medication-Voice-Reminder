@@ -85,8 +85,9 @@ public class NotificationIntentService extends IntentService {
         if ( reminder.getMedName() == null || reminder.getMedDose() == null || reminder.getMedDoseUnit() == null )
             return;
 
-        notificationContentText = "Take " + reminder.getMedName() + " dosage is " +
-                reminder.getMedDose() + " " + reminder.getMedDoseUnit();
+        notificationContentText = "Take " + reminder.getMedName() +
+                getString( R.string.notification_dosage ) + reminder.getMedDose() +
+                " " + reminder.getMedDoseUnit();
 
         final NotificationCompat.Builder builder = new NotificationCompat.Builder( this );
         builder.setContentTitle( reminder.getMedName() )

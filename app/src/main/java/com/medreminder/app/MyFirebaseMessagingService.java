@@ -130,12 +130,22 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         // Check if message contains a data payload.
         if ( remoteMessage.getData().size() > 0 ) {
-            JSONObject mesgData = new JSONObject( remoteMessage.getData() );
+            JSONObject msgData = new JSONObject( remoteMessage.getData() );
 
             try {
-                final String doctorName = mesgData.getString( "createdBy" );
-                final String realizeReceiptTo = remoteMessage.getData().get( "realizeTo" );
-                speakNotificationFromFirebase( realizeReceiptTo, doctorName );
+                String msg;
+                final String title = msgData.getString( "title" );
+
+                if( title.equals( "New receipt!" ) ){
+                    final String doctorName = msgData.getString( "createdBy" );
+                    final String realizeReceiptTo = msgData.getString( "realizeTo" );
+                    msg = newReceiptMsg( realizeReceiptTo, doctorName );
+                } else {
+                    final String message = msgData.getString( "message" );
+                    msg = newMedicationMsg( message );
+                }
+
+                speakNotificationFromFirebase( title, msg );
             } catch ( JSONException e ) {
                 e.printStackTrace();
             }
@@ -177,11 +187,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     //speak notification aloud
-    private void speakNotificationFromFirebase( String realizePrescriptionTo, String doctorName ) {
-        String msg = getString( R.string.new_prescription ) + " " + doctorName + ". " +
-                getString( R.string.realize_prescription_to ) + " " + realizePrescriptionTo;
-
-        pushNotification( getString( R.string.new_prescription_title ), msg );
+    private void speakNotificationFromFirebase( String title, String msg ) {
+        pushNotification( title, msg );
 
         //Check if user have enabled speaking notification
         final SharedPreferences userPreferences = getSharedPreferences( "enable_speak_notification", MODE_PRIVATE );
@@ -193,5 +200,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             ttsIntent.putStringArrayListExtra( "ttsContent", notificationContent );
             this.startService( ttsIntent );
         }
+    }
+
+    private String newReceiptMsg( String realizePrescriptionTo, String doctorName ){
+        return getString( R.string.new_prescription ) + " " + doctorName + ". " +
+                getString( R.string.realize_prescription_to ) + " " + realizePrescriptionTo;
+    }
+
+    private String newMedicationMsg( String msg ){
+        return getString( R.string.new_medication ) + " " + msg;
     }
 }
