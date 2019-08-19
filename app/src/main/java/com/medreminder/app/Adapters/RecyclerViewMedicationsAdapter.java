@@ -37,10 +37,10 @@ public class RecyclerViewMedicationsAdapter {
         public MedicationItemView( @NonNull ViewGroup parent ) {
             super( LayoutInflater.from( mContext ).inflate( R.layout.medication_list_item, parent, false ) );
 
-            mName = (TextView) itemView.findViewById( R.id.receipt_id_txtView );
-            mDose = (TextView) itemView.findViewById( R.id.receipt_meds_txtView );
+            mName = (TextView) itemView.findViewById( R.id.prescription_id_txtView );
+            mDose = (TextView) itemView.findViewById( R.id.prescription_meds_txtView );
             mDoseUnit = (TextView) itemView.findViewById( R.id.med_doseUnit_txtView );
-            mStart = (TextView) itemView.findViewById( R.id.receipt_realizeTo_txtView );
+            mStart = (TextView) itemView.findViewById( R.id.prescription_realizeTo_txtView );
             mEnds = (TextView) itemView.findViewById( R.id.med_ends_txtView );
         }
 

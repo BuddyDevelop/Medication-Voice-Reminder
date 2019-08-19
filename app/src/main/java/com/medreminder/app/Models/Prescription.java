@@ -2,23 +2,23 @@ package com.medreminder.app.Models;
 
 import java.util.List;
 
-public class Receipt {
+public class Prescription {
     private String doctorName;
     private String doctor;
     private String created;
     private String realizeTo;
-    private String receiptId;
-    private List<ReceiptMedication> receiptMedications;
+    private String prescriptionId;
+    private List<PrescriptionMedications> prescriptionMedications;
 
-    public Receipt() {
+    public Prescription() {
     }
 
-    public Receipt( String doctorName, String doctor, String created, String realizeTo, List<ReceiptMedication> receiptMed ) {
+    public Prescription( String doctorName, String doctor, String created, String realizeTo, List<PrescriptionMedications> prescriptionMedications ) {
         this.doctorName = doctorName;
         this.doctor = doctor;
         this.created = created;
         this.realizeTo = realizeTo;
-        this.receiptMedications = receiptMed;
+        this.prescriptionMedications = prescriptionMedications;
     }
 
     public String getDoctorName() {
@@ -53,19 +53,19 @@ public class Receipt {
         this.realizeTo = realizeTo;
     }
 
-    public String getReceiptId() {
-        return receiptId;
+    public String getPrescriptionId() {
+        return prescriptionId;
     }
 
-    public void setReceiptId( String receiptId ) {
-        this.receiptId = receiptId;
+    public void setPrescriptionId( String prescriptionId ) {
+        this.prescriptionId = prescriptionId;
     }
 
-    public List<ReceiptMedication> getReceiptMedications() {
-        return receiptMedications;
+    public List<PrescriptionMedications> getPrescriptionMedications() {
+        return prescriptionMedications;
     }
 
-    public void setReceiptMedications( List<ReceiptMedication> receiptMedications ) {
-        this.receiptMedications = receiptMedications;
+    public void setPrescriptionMedications( List<PrescriptionMedications> prescriptionMedications ) {
+        this.prescriptionMedications = prescriptionMedications;
     }
 }

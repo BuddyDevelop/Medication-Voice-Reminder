@@ -1,13 +1,13 @@
 package com.medreminder.app.Models;
 
-public class ReceiptMedication {
+public class PrescriptionMedications {
     private String medication;
     private String payment;
 
-    public ReceiptMedication() {
+    public PrescriptionMedications() {
     }
 
-    public ReceiptMedication( String medication, String payment ) {
+    public PrescriptionMedications( String medication, String payment ) {
         this.medication = medication;
         this.payment = payment;
     }

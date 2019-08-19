@@ -13,7 +13,7 @@ public class FirebaseDBHelper {
     public FirebaseDatabase mFirebaseDB;
     public DatabaseReference mFirebaseUsersReference;
     public DatabaseReference mFirebaseMedicationReference;
-    public DatabaseReference mFirebaseReceiptsReference;
+    public DatabaseReference mFirebasePrescriptionsReference;
     public FirebaseAuth mAuth;
 
 
@@ -22,7 +22,7 @@ public class FirebaseDBHelper {
         mAuth = FirebaseAuth.getInstance();
         mFirebaseUsersReference = mFirebaseDB.getReference("Users");
         mFirebaseMedicationReference = mFirebaseDB.getReference("medications" );
-        mFirebaseReceiptsReference = mFirebaseDB.getReference("receipts" );
+        mFirebasePrescriptionsReference = mFirebaseDB.getReference("prescriptions" );
     }
 
     //update user's app token in database

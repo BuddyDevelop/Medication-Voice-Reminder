@@ -16,7 +16,7 @@
 
 
     <TextView
-        android:id="@+id/receipt_id_txtView"
+        android:id="@+id/prescription_id_txtView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -27,7 +27,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/receipt_meds_txtView"
+        android:id="@+id/prescription_meds_txtView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -35,7 +35,7 @@
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/receipt_id_txtView" />
+        app:layout_constraintTop_toBottomOf="@id/prescription_id_txtView" />
 
     <TextView
         android:id="@+id/med_doseUnit_txtView"
@@ -45,11 +45,11 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/receipt_meds_txtView"
-        app:layout_constraintTop_toBottomOf="@id/receipt_id_txtView" />
+        app:layout_constraintStart_toEndOf="@id/prescription_meds_txtView"
+        app:layout_constraintTop_toBottomOf="@id/prescription_id_txtView" />
 
     <TextView
-        android:id="@+id/receipt_realizeTo_txtView"
+        android:id="@+id/prescription_realizeTo_txtView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
@@ -83,6 +83,6 @@
         android:text="-"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/med_ends_txtView"
-        app:layout_constraintStart_toEndOf="@id/receipt_realizeTo_txtView"
+        app:layout_constraintStart_toEndOf="@id/prescription_realizeTo_txtView"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

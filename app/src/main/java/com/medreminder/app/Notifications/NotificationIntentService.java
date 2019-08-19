@@ -93,6 +93,8 @@ public class NotificationIntentService extends IntentService {
         builder.setContentTitle( reminder.getMedName() )
                 .setAutoCancel( true )
                 .setColor( getResources().getColor( R.color.colorPrimaryDark ) )
+                .setStyle( new NotificationCompat.BigTextStyle()
+                        .bigText( notificationContentText ) )
                 .setContentText( notificationContentText )
                 .setPriority( NotificationCompat.PRIORITY_HIGH )
                 .setSmallIcon( R.mipmap.ic_notification_filled_round );
@@ -183,7 +185,7 @@ public class NotificationIntentService extends IntentService {
 
     private String returnNotificationContent( String medName, String medDose, String medDoseUnit ) {
         return getString( R.string.notification_from ) + getString( R.string.app_name ) + ". " +
-                getString( R.string.notification_it_says ) + medName +
-                getString( R.string.notification_dosage ) + medDose + " " + medDoseUnit;
+                getString( R.string.notification_it_says ) + " " + medName +
+                getString( R.string.notification_dosage ) + " " + medDose + " " + medDoseUnit;
     }
 }

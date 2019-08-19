@@ -15,10 +15,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
-import com.medreminder.app.Adapters.RecyclerViewReceiptsAdapter;
+import com.medreminder.app.Adapters.RecyclerViewPrescriptionsAdapter;
 import com.medreminder.app.Database.FirebaseDBHelper;
-import com.medreminder.app.Models.Receipt;
-import com.medreminder.app.Models.ReceiptMedication;
+import com.medreminder.app.Models.Prescription;
+import com.medreminder.app.Models.PrescriptionMedications;
 import com.medreminder.app.Models.User;
 import com.medreminder.app.R;
 import com.medreminder.app.registerAndLogin.CustomToast;
@@ -28,12 +28,12 @@ import java.util.List;
 
 
 /**
- * Fragment fetching receipts from firebase and displaying them in recycler view
+ * Fragment fetching prescriptions from firebase and displaying them in recycler view
  */
 public class PrescriptionsFragment extends Fragment {
     private FirebaseDBHelper mFirebaseDBHelper;
     private RecyclerView mRecyclerView;
-    private List<Receipt> receipts = new ArrayList<>(  );
+    private List<Prescription> prescriptions = new ArrayList<>(  );
     private FirebaseUser mUser;
     private String userId;
 
@@ -46,8 +46,8 @@ public class PrescriptionsFragment extends Fragment {
     public View onCreateView( LayoutInflater inflater, ViewGroup container,
                               Bundle savedInstanceState ) {
         final View view = inflater.inflate( R.layout.fragment_prescriptions, container, false );
-        final TextView mNoData = view.findViewById( R.id.receipts_no_data_txtView );
-        mRecyclerView = view.findViewById( R.id.receipts_recyclerview );
+        final TextView mNoData = view.findViewById( R.id.prescriptions_no_data_txtView );
+        mRecyclerView = view.findViewById( R.id.prescriptions_recyclerview );
 
         mFirebaseDBHelper = new FirebaseDBHelper();
         mUser = mFirebaseDBHelper.mAuth.getCurrentUser();
@@ -56,13 +56,13 @@ public class PrescriptionsFragment extends Fragment {
 
         userId = mUser.getUid();
 
-        fetchReceiptsFromFirebase( view, container, mNoData );
+        fetchPrescriptionsFromFirebase( view, container, mNoData );
 
         // Inflate the layout for this fragment
         return view;
     }
 
-    private void fetchReceiptsFromFirebase( final View view, final ViewGroup container, final TextView mNoData ) {
+    private void fetchPrescriptionsFromFirebase( final View view, final ViewGroup container, final TextView mNoData ) {
         mFirebaseDBHelper.mFirebaseUsersReference.child( userId ).addValueEventListener( new ValueEventListener() {
             @Override
             public void onDataChange( @NonNull DataSnapshot dataSnapshot ) {
@@ -70,39 +70,39 @@ public class PrescriptionsFragment extends Fragment {
                     User user = dataSnapshot.getValue( User.class);
                     String userPesel = user.getPesel();
 
-                    mFirebaseDBHelper.mFirebaseReceiptsReference.child( userPesel ).addValueEventListener( new ValueEventListener() {
+                    mFirebaseDBHelper.mFirebasePrescriptionsReference.child( userPesel ).addValueEventListener( new ValueEventListener() {
                         @Override
                         public void onDataChange( @NonNull DataSnapshot dataSnapshot ) {
-                            receipts.clear();
+                            prescriptions.clear();
                             List<String> keys = new ArrayList<>(  );
-                            //get receipt
+                            //get prescription
                             for( DataSnapshot snapshot : dataSnapshot.getChildren()){
                                 keys.add( snapshot.getKey() );
-                                Receipt receipt = snapshot.getValue(Receipt.class);
+                                Prescription prescriptions = snapshot.getValue( Prescription.class);
 
 
-                                List<ReceiptMedication> receiptMedications = new ArrayList<>(  );
+                                List<PrescriptionMedications> prescriptionMedications = new ArrayList<>(  );
 
-                                //get medications node from receipt
+                                //get medications node from prescriptions
                                 DataSnapshot medications = snapshot.child( "medications" );
                                 Iterable<DataSnapshot> medicationChildren = medications.getChildren();
 
                                 for( DataSnapshot med : medicationChildren ){
-                                    ReceiptMedication receiptMedication = med.getValue(ReceiptMedication.class);
-                                    receiptMedications.add( receiptMedication );
+                                    PrescriptionMedications prescriptionMedication = med.getValue( PrescriptionMedications.class);
+                                    prescriptionMedications.add( prescriptionMedication );
                                 }
 
-                                receipt.setReceiptMedications( receiptMedications );
-                                receipt.setReceiptId( snapshot.getKey() );
-                                receipts.add( receipt );
+                                prescriptions.setPrescriptionMedications( prescriptionMedications );
+                                prescriptions.setPrescriptionId( snapshot.getKey() );
+                                PrescriptionsFragment.this.prescriptions.add( prescriptions );
                             }
-                            receipts.size();
+                            prescriptions.size();
 
 
-                            view.findViewById( R.id.loading_receipts_progressBar ).setVisibility( View.GONE );
-                            new RecyclerViewReceiptsAdapter().initialize( mRecyclerView, container.getContext(), receipts, keys  );
+                            view.findViewById( R.id.loading_prescriptions_progressBar ).setVisibility( View.GONE );
+                            new RecyclerViewPrescriptionsAdapter().initialize( mRecyclerView, container.getContext(), prescriptions, keys  );
 
-                            if( receipts.size() == 0 )
+                            if( prescriptions.size() == 0 )
                                 mNoData.setVisibility( View.VISIBLE );
                             else
                                 mNoData.setVisibility( View.GONE );
@@ -110,7 +110,7 @@ public class PrescriptionsFragment extends Fragment {
 
                         @Override
                         public void onCancelled( @NonNull DatabaseError databaseError ) {
-                            new CustomToast().showToast( container.getContext(), view, "Failed to load receipts." );
+                            new CustomToast().showToast( container.getContext(), view, "Failed to load prescriptions." );
                         }
                     } );
                 }

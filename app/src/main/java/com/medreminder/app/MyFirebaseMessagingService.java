@@ -136,10 +136,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 String msg;
                 final String title = msgData.getString( "title" );
 
-                if( title.equals( "New receipt!" ) ){
+                if( title.equals( "New prescription!" ) ){
                     final String doctorName = msgData.getString( "createdBy" );
-                    final String realizeReceiptTo = msgData.getString( "realizeTo" );
-                    msg = newReceiptMsg( realizeReceiptTo, doctorName );
+                    final String realizePrescriptionTo = msgData.getString( "realizeTo" );
+                    msg = newPrescriptionMsg( realizePrescriptionTo, doctorName );
                 } else {
                     final String message = msgData.getString( "message" );
                     msg = newMedicationMsg( message );
@@ -202,7 +202,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
-    private String newReceiptMsg( String realizePrescriptionTo, String doctorName ){
+    private String newPrescriptionMsg( String realizePrescriptionTo, String doctorName ){
         return getString( R.string.new_prescription ) + " " + doctorName + ". " +
                 getString( R.string.realize_prescription_to ) + " " + realizePrescriptionTo;
     }

@@ -30,7 +30,7 @@ public class NotificationServiceStarterReceiver extends BroadcastReceiver {
 //        PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.PARTIAL_WAKE_LOCK, "YOUR TAG");
 //        wl.acquire();
 
-        //create alarms for all ReceiptMedication
+        //create alarms for all PrescriptionMedications
         switch ( intent.getAction() ) {
             case Intent.ACTION_TIMEZONE_CHANGED:
             case Intent.ACTION_TIME_CHANGED:
