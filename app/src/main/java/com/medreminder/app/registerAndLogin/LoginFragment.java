@@ -30,7 +30,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.medreminder.app.MyFirebaseMessagingService;
+import com.medreminder.app.Services.MyFirebaseMessagingService;
 import com.medreminder.app.R;
 
 import java.util.regex.Matcher;

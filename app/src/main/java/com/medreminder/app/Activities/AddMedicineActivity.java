@@ -140,7 +140,6 @@ public class AddMedicineActivity extends AppCompatActivity {
             alarmId = ( int ) System.currentTimeMillis();
             alarmIdString += Integer.toString( alarmId ) + " ";
             RemindersManager.addReminder( getApplicationContext(), alarmId, weekday, time );
-            RemindersManager.addReminder( getApplicationContext(), alarmId, weekday, time );
         }
 
         try {

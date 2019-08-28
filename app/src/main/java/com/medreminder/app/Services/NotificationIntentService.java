@@ -1,4 +1,4 @@
-package com.medreminder.app.Notifications;
+package com.medreminder.app.Services;
 
 import android.app.IntentService;
 import android.app.NotificationManager;
@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
@@ -53,12 +52,10 @@ public class NotificationIntentService extends IntentService {
     }
 
     private void processDeleteNotification( Intent intent ) {
-        // Log something?
     }
 
     @Override
     protected void onHandleIntent( Intent intent ) {
-        Log.d( getClass().getSimpleName(), "onHandleIntent, started handling a notification event" );
         try {
             String action = intent.getAction();
             if ( ACTION_WORKING.equals( action ) ) {
@@ -85,8 +82,8 @@ public class NotificationIntentService extends IntentService {
         if ( reminder.getMedName() == null || reminder.getMedDose() == null || reminder.getMedDoseUnit() == null )
             return;
 
-        notificationContentText = "Take " + reminder.getMedName() +
-                getString( R.string.notification_dosage ) + reminder.getMedDose() +
+        notificationContentText = "Take " + reminder.getMedName() + " " +
+                getString( R.string.notification_dosage ) + " " + reminder.getMedDose() +
                 " " + reminder.getMedDoseUnit();
 
         final NotificationCompat.Builder builder = new NotificationCompat.Builder( this );

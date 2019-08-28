@@ -26,17 +26,17 @@ public class RemindersManager {
         if ( myAlarmDayOfTheWeek != -1 ) {
             //Check whether the day of the week was earlier in the week:
             if ( myAlarmDayOfTheWeek > day.get( Calendar.DAY_OF_WEEK ) ) {
+                //Set the day of the AlarmManager:
                 day.add( Calendar.DAY_OF_YEAR, ( myAlarmDayOfTheWeek - day.get( Calendar.DAY_OF_WEEK ) ) );
-            } else {
-                if ( myAlarmDayOfTheWeek < day.get( Calendar.DAY_OF_WEEK ) ) {
+                //Check whether the day of the week will be in future in the week:
+            } else if ( myAlarmDayOfTheWeek < day.get( Calendar.DAY_OF_WEEK ) ) {
+                //Set the day of the AlarmManager:
+                day.add( Calendar.DAY_OF_YEAR, ( 7 - ( day.get( Calendar.DAY_OF_WEEK ) - myAlarmDayOfTheWeek ) ) );
+            } else {  // myAlarmDayOfTheWeek == time.get(Calendar.DAY_OF_WEEK)
+                //Check whether the time has already gone:
+                if ( ( hour < day.get( Calendar.HOUR_OF_DAY ) ) || ( ( hour == day.get( Calendar.HOUR_OF_DAY ) ) && ( minute < day.get( Calendar.MINUTE ) ) ) ) {
                     //Set the day of the AlarmManager:
-                    day.add( Calendar.DAY_OF_YEAR, ( 7 - ( day.get( Calendar.DAY_OF_WEEK ) - myAlarmDayOfTheWeek ) ) );
-                } else {  // myAlarmDayOfTheWeek == time.get(Calendar.DAY_OF_WEEK)
-                    //Check whether the time has already gone:
-                    if ( ( hour < day.get( Calendar.HOUR_OF_DAY ) ) || ( ( hour == day.get( Calendar.HOUR_OF_DAY ) ) && ( minute < day.get( Calendar.MINUTE ) ) ) ) {
-                        //Set the day of the AlarmManager:
-                        day.add( Calendar.DAY_OF_YEAR, 7 );
-                    }
+                    day.add( Calendar.DAY_OF_YEAR, 7 );
                 }
             }
 //      daily notification

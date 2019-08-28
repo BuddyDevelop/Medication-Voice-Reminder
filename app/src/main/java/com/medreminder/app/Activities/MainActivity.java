@@ -32,7 +32,7 @@ import com.medreminder.app.Fragments.HomeFragment;
 import com.medreminder.app.Fragments.MedicationsFragment;
 import com.medreminder.app.Fragments.PrescriptionsFragment;
 import com.medreminder.app.Models.User;
-import com.medreminder.app.MyFirebaseMessagingService;
+import com.medreminder.app.Services.MyFirebaseMessagingService;
 import com.medreminder.app.R;
 import com.rupins.drawercardbehaviour.CardDrawerLayout;
 
@@ -98,9 +98,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                             startActivity( intent );
                         }
                         break;
-                    case R.id.nav_speak_notification_settings:
-                        speakNotificationSettingsDialog();
-                        break;
+//                    case R.id.nav_speak_notification_settings:
+//                        speakNotificationSettingsDialog();
+//                        break;
                     case R.id.nav_enable_speak_notifications:
                         enableSpeakNotificationDialog();
                         break;
@@ -201,11 +201,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             case R.id.navigation_prescriptions:
                 fragment = new PrescriptionsFragment();
                 break;
-
-//            case R.id.navigation_history:
-//                fragment = new HistoryFragment();
-//                break;
-
             default:
                 fragment = new HomeFragment();
                 break;
@@ -223,48 +218,48 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             super.onBackPressed();
         }
     }
-    //dialog in drawer to check if user want to have spoken notifications
-    private void speakNotificationSettingsDialog() {
-        final SharedPreferences userPreferences = getSharedPreferences( "speak_notification_settings", MODE_PRIVATE );
-        final String[] speakNotificationSettings = getResources().getStringArray( R.array.speak_notifications_settings_dialog );
-        final boolean[] selectedSettings = new boolean[ speakNotificationSettings.length ];
-
-        // get user notification preferences
-        for ( int i = 0; i < selectedSettings.length; ++i ) {
-            selectedSettings[ i ] = userPreferences.getBoolean( speakNotificationSettings[ i ], true );
-        }
-
-        //create alert dialog
-        AlertDialog.Builder builder = new AlertDialog.Builder( this );
-        builder.setTitle( R.string.speak_notification_settings_title );
-
-        builder
-                .setMultiChoiceItems( speakNotificationSettings, selectedSettings, new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick( DialogInterface dialogInterface, int elem, boolean isChecked ) {
-                        selectedSettings[ elem ] = isChecked;
-                    }
-                } )
-                .setPositiveButton( R.string.save, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick( DialogInterface dialog, int which ) {
-                        // edit user notification preferences
-                        SharedPreferences.Editor preEditor = userPreferences.edit();
-                        for ( int i = 0; i < speakNotificationSettings.length; ++i ) {
-                            preEditor.putBoolean( speakNotificationSettings[ i ], selectedSettings[ i ] );
-                        }
-                        preEditor.apply();
-                    }
-                } )
-                .setNegativeButton( R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick( DialogInterface dialogInterface, int i ) {
-                        dialogInterface.dismiss();
-                    }
-                } );
-
-        builder.show();
-    }
+//    //dialog in drawer to check if user want to have spoken notifications
+//    private void speakNotificationSettingsDialog() {
+//        final SharedPreferences userPreferences = getSharedPreferences( "speak_notification_settings", MODE_PRIVATE );
+//        final String[] speakNotificationSettings = getResources().getStringArray( R.array.speak_notifications_settings_dialog );
+//        final boolean[] selectedSettings = new boolean[ speakNotificationSettings.length ];
+//
+//        // get user notification preferences
+//        for ( int i = 0; i < selectedSettings.length; ++i ) {
+//            selectedSettings[ i ] = userPreferences.getBoolean( speakNotificationSettings[ i ], true );
+//        }
+//
+//        //create alert dialog
+//        AlertDialog.Builder builder = new AlertDialog.Builder( this );
+//        builder.setTitle( R.string.speak_notification_settings_title );
+//
+//        builder
+//                .setMultiChoiceItems( speakNotificationSettings, selectedSettings, new DialogInterface.OnMultiChoiceClickListener() {
+//                    @Override
+//                    public void onClick( DialogInterface dialogInterface, int elem, boolean isChecked ) {
+//                        selectedSettings[ elem ] = isChecked;
+//                    }
+//                } )
+//                .setPositiveButton( R.string.save, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick( DialogInterface dialog, int which ) {
+//                        // edit user notification preferences
+//                        SharedPreferences.Editor preEditor = userPreferences.edit();
+//                        for ( int i = 0; i < speakNotificationSettings.length; ++i ) {
+//                            preEditor.putBoolean( speakNotificationSettings[ i ], selectedSettings[ i ] );
+//                        }
+//                        preEditor.apply();
+//                    }
+//                } )
+//                .setNegativeButton( R.string.cancel, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick( DialogInterface dialogInterface, int i ) {
+//                        dialogInterface.dismiss();
+//                    }
+//                } );
+//
+//        builder.show();
+//    }
     //dialog in drawer for notification settings
     private void enableSpeakNotificationDialog() {
         final SharedPreferences userPreferences = getSharedPreferences( "enable_speak_notification", MODE_PRIVATE );

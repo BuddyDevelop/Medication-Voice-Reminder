@@ -1,4 +1,4 @@
-package com.medreminder.app;
+package com.medreminder.app.Services;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -23,6 +23,8 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.medreminder.app.Activities.MainActivity;
 import com.medreminder.app.Database.FirebaseDBHelper;
+import com.medreminder.app.R;
+import com.medreminder.app.TTS;
 import com.medreminder.app.registerAndLogin.RegisterActivity;
 
 import org.json.JSONException;

@@ -45,10 +45,7 @@ public class DBManager {
         contentValues.put( MyDbHelper.MEDICATION_DAYS, days );
 
         //if -1 then error occured
-        long insertedRowid;
-
-        insertedRowid = database.insert( MyDbHelper.TABLE_NAME, null, contentValues );
-        return insertedRowid;
+        return database.insert( MyDbHelper.TABLE_NAME, null, contentValues );
     }
 
     public boolean reminderExists( String medName, String medTime, String medDoseUnit, String medDays ) {
@@ -207,7 +204,7 @@ public class DBManager {
         String[] columns = new String[]{ MyDbHelper.MEDICATION_NAME, MyDbHelper.MEDICATION_TIME, MyDbHelper.MEDICATION_DOSE,
                 MyDbHelper.MEDICATION_DOSE_UNIT, MyDbHelper.MEDICATION_DAYS };
         String whereClause = MyDbHelper.MEDICATION_NAME + " != ? AND " + MyDbHelper.MEDICATION_TIME + " = ?;";
-        String[] whereArgs = new String[] { medName, medTime };
+        String[] whereArgs = new String[]{ medName, medTime };
         ArrayList<Reminder> reminderList = new ArrayList<>();
 
         Cursor cursor = database.query( MyDbHelper.TABLE_NAME, columns,

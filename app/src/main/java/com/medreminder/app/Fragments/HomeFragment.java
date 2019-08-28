@@ -102,11 +102,9 @@ public class HomeFragment extends Fragment {
                             arrayList.get( i ).getReminderAlarmId()
                     );
 
-
                     Intent editIntent = new Intent( getContext(), AddMedicineActivity.class );
                     editIntent.putExtra( "reminder", editReminder );
                     startActivity( editIntent );
-//                    startActivityForResult( editIntent, 2 );
 
                 }
             } );
