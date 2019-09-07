@@ -18,7 +18,6 @@ import com.medreminder.app.Database.DBManager;
 import com.medreminder.app.Models.Reminder;
 import com.medreminder.app.R;
 import com.medreminder.app.TTS;
-import com.medreminder.app.broadcast_reciver.NotificationEventReceiver;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -43,15 +42,6 @@ public class NotificationIntentService extends IntentService {
         intent.setAction( ACTION_WORKING );
         intent.putExtra( "alarmId", alarmId );
         return intent;
-    }
-
-    public static Intent createIntentDeleteNotification( Context context ) {
-        Intent intent = new Intent( context, NotificationIntentService.class );
-        intent.setAction( ACTION_DELETE );
-        return intent;
-    }
-
-    private void processDeleteNotification( Intent intent ) {
     }
 
     @Override
@@ -82,7 +72,7 @@ public class NotificationIntentService extends IntentService {
         if ( reminder.getMedName() == null || reminder.getMedDose() == null || reminder.getMedDoseUnit() == null )
             return;
 
-        notificationContentText = "Take " + reminder.getMedName() + " " +
+        notificationContentText = getString( R.string.take ) + " " + reminder.getMedName() + " " +
                 getString( R.string.notification_dosage ) + " " + reminder.getMedDose() +
                 " " + reminder.getMedDoseUnit();
 
@@ -99,7 +89,7 @@ public class NotificationIntentService extends IntentService {
         //Vibration
         builder.setVibrate( new long[]{ 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000 } );
         //LED
-        builder.setLights( Color.BLUE, 5000, 5000 );
+        builder.setLights( Color.BLUE, 1500, 1500 );
 
 
         Intent mainIntent = new Intent( this, NotificationActivity.class );
@@ -109,17 +99,10 @@ public class NotificationIntentService extends IntentService {
                 mainIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT );
         builder.setContentIntent( pendingIntent );
-        builder.setDeleteIntent( NotificationEventReceiver.getDeleteIntent( this ) );
 
         final NotificationManager manager = ( NotificationManager ) this.getSystemService( Context.NOTIFICATION_SERVICE );
         manager.notify( alarmId, builder.build() );
 
-//        final SharedPreferences userPreferences = getSharedPreferences( "enable_speak_notification", MODE_PRIVATE );
-//        if ( userPreferences.getBoolean( "enabled", true ) ) {
-//            Intent ttsIntent = new Intent( getApplicationContext(), TTS.class );
-//            ttsIntent.putExtra( "ttsContent", reminder );
-//            getApplicationContext().startService( ttsIntent );
-//        }
 //        check if user want to have notifications spoken loud
         speakNotificationLoud( getApplicationContext(), reminder );
     }

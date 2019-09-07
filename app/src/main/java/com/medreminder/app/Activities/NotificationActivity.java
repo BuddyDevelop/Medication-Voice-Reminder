@@ -32,7 +32,9 @@ public class NotificationActivity extends AppCompatActivity {
             notificationActivityContent = ( TextView ) findViewById( R.id.notificationActivityContent );
             Reminder reminder = ( Reminder ) intent.getExtras().getSerializable( "notificationContent" );
 
-            notificationActivityContent.setText( "Take " + reminder.getMedName() + " the dosage is " + reminder.getMedDose() + " " + reminder.getMedDoseUnit() );
+            notificationActivityContent.setText( getString( R.string.take ) + " " + reminder.getMedName() + " " +
+                    getString( R.string.notification_dosage ) + " " + reminder.getMedDose() +
+                    " " + reminder.getMedDoseUnit() );
         }
 
     }

@@ -26,11 +26,8 @@ public class NotificationServiceStarterReceiver extends BroadcastReceiver {
         if ( intent == null )
             return;
 
-//        PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-//        PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.PARTIAL_WAKE_LOCK, "YOUR TAG");
-//        wl.acquire();
 
-        //create alarms for all PrescriptionMedications
+        //create alarms for all medications
         switch ( intent.getAction() ) {
             case Intent.ACTION_TIMEZONE_CHANGED:
             case Intent.ACTION_TIME_CHANGED:
@@ -38,8 +35,6 @@ public class NotificationServiceStarterReceiver extends BroadcastReceiver {
                 recreateAllAlarms( context );
                 break;
         }
-
-//        wl.release();
     }
 
     public void recreateAllAlarms( Context context ) {

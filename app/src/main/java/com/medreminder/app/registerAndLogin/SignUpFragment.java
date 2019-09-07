@@ -100,7 +100,6 @@ public class SignUpFragment extends Fragment implements OnClickListener {
         switch ( v.getId() ) {
             case R.id.signUpBtn:
 
-                // Call checkValidation method
                 checkValidation();
                 break;
 
@@ -118,9 +117,8 @@ public class SignUpFragment extends Fragment implements OnClickListener {
 
     }
 
-    // Check Validation Method
+    // validate fields
     private void checkValidation() {
-
         // Get all editText texts
         String fullNameString = fullName.getText().toString().trim();
         String emailString = email.getText().toString().trim();
@@ -145,46 +143,43 @@ public class SignUpFragment extends Fragment implements OnClickListener {
                 || confirmPasswordString.length() == 0 )
 
             new CustomToast().showToast( getActivity(), view,
-                    "All fields are required." );
+                    getString( R.string.all_fields_required_err ) );
 
         else if ( fullNameString.length() < 6 )
             new CustomToast().showToast( getActivity(), view,
-                    "Enter your full name" );
+                    getString( R.string.fullname_err ) );
 
             // Check if email id valid or not
         else if ( !emailMatcher.find() )
             new CustomToast().showToast( getActivity(), view,
-                    "Your email is invalid." );
+                    getString( R.string.invalid_email ) );
 
         else if ( !peselMatcher.find() )
             new CustomToast().showToast( getActivity(), view,
-                    "Your pesel is invalid." );
+                    getString( R.string.pesel_err ) );
 
         else if ( passwordString.length() < 6 )
             new CustomToast().showToast( getActivity(), view,
-                    "Your password should have at least 6 characters." );
+                    getString( R.string.password_length_err ) );
 
             // Check if both password should be equal
         else if ( !confirmPasswordString.equals( passwordString ) )
             new CustomToast().showToast( getActivity(), view,
-                    "Both password doesn't match." );
+                    getString( R.string.passwords_not_match_err ) );
 
             // Make sure user should check Terms and Conditions checkbox
         else if ( !terms_conditions.isChecked() )
             new CustomToast().showToast( getActivity(), view,
-                    "Please select Terms and Conditions." );
+                    getString( R.string.terms_err ) );
 
             // Else do signup or do your stuff
         else {
             progressBar.setVisibility( View.VISIBLE );
             RegisterUser( emailString, passwordString, fullNameString, peselNumberString );
         }
-
-
     }
 
     private void RegisterUser( final String email, String password, final String fullName, final String pesel ) {
-
         mAuth.createUserWithEmailAndPassword( email, password )
                 .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
                     @Override
@@ -212,7 +207,7 @@ public class SignUpFragment extends Fragment implements OnClickListener {
                                                 MyFirebaseMessagingService.getToken();
                                             } else
                                                 new CustomToast().showToast( getActivity(), view,
-                                                        "Something went wrong with registration, check your connection" );
+                                                        getString( R.string.sth_went_wrong_err ) );
                                         }
                                     } );
 

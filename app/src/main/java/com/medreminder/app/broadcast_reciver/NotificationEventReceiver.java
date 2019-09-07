@@ -60,11 +60,6 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver {
         return PendingIntent.getBroadcast( context, alarmId, intent, PendingIntent.FLAG_UPDATE_CURRENT );
     }
 
-    public static PendingIntent getDeleteIntent( Context context ) {
-        Intent intent = new Intent( context, NotificationEventReceiver.class );
-        intent.setAction( ACTION_DELETE_NOTIFICATION );
-        return PendingIntent.getBroadcast( context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT );
-    }
 
     @Override
     public void onReceive( Context context, Intent intent ) {
@@ -79,8 +74,7 @@ public class NotificationEventReceiver extends WakefulBroadcastReceiver {
         }
 
         if ( ACTION_DELETE_NOTIFICATION.equals( action ) ) {
-//            Log.i( getClass().getSimpleName(), "onReceive delete notification action, starting notification service to handle delete" );
-            serviceIntent = NotificationIntentService.createIntentDeleteNotification( context );
+            //implement action if user delete notification from notification's panel
         } else if ( ACTION_WORKING_NOTIFICATION_SERVICE.equals( action ) ) {
             Bundle extras = intent.getExtras();
             int alarmId = extras.getInt( "alarmId" );

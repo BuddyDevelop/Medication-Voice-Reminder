@@ -66,7 +66,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Check if both are null or not
         // If both are not null then replace login fragment else do backpressed
-        // task
 
         if ( SignUp_Fragment != null )
             replaceLoginFragment();

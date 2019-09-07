@@ -21,9 +21,7 @@ public class TTS extends Service implements TextToSpeech.OnInitListener {
     public static boolean isIntentServiceRunning = false;
 
     @Override
-    public void onCreate() {
-
-    }
+    public void onCreate() {}
 
 
     @Override
@@ -40,7 +38,15 @@ public class TTS extends Service implements TextToSpeech.OnInitListener {
     @Override
     public void onInit( int status ) {
         if ( status == TextToSpeech.SUCCESS ) {
-            int result = mTts.setLanguage( Locale.US );
+            int result = -1;
+
+            //if user is using polish lang on device set tts lang to polish
+            if( Locale.getDefault().getDisplayLanguage().equals( "polski" ) )
+                result = mTts.setLanguage( new Locale( "pl_PL" ) );
+            else
+                result = mTts.setLanguage( Locale.US );
+
+
             if ( result != TextToSpeech.LANG_MISSING_DATA && result != TextToSpeech.LANG_NOT_SUPPORTED ) {
                 Log.d( "Init", "Success" );
 

@@ -162,7 +162,6 @@ public class LoginFragment extends Fragment implements OnClickListener {
 
         // Check patter for email
         Pattern p = Pattern.compile( emailRegEx );
-
         Matcher m = p.matcher( emailString );
 
         // Check for both field is empty or not
@@ -170,14 +169,14 @@ public class LoginFragment extends Fragment implements OnClickListener {
                 || passwordString.equals( "" ) || passwordString.length() == 0 ) {
             loginLayout.startAnimation( shakeAnimation );
             new CustomToast().showToast( getActivity(), view,
-                    "Enter both credentials." );
+                    getString( R.string.login_error ) );
 
         }
         // Check if email is valid or not
         else if ( !m.find() )
             new CustomToast().showToast( getActivity(), view,
-                    "Your email is invalid." );
-            // Else do login and do your stuff
+                    getString( R.string.invalid_email ) );
+            // Else do login
         else
             signIn( emailString, passwordString );
 
@@ -194,12 +193,12 @@ public class LoginFragment extends Fragment implements OnClickListener {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d( "signIn: success", "signInWithEmail:success" );
                             FirebaseUser user = mAuth.getCurrentUser();
-                            userAlreadyLogged( getContext() );
+                            userAlreadyLogged( getActivity() );
                             MyFirebaseMessagingService.getToken();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w( "signIn: fail", "signInWithEmail:failure", task.getException() );
-                            new CustomToast().showToast( getActivity(), view, "Authentication failed." );
+                            new CustomToast().showToast( getActivity(), view, getString( R.string.authentication_failed ) );
                         }
                         progressBar.setVisibility( View.GONE );
                     }

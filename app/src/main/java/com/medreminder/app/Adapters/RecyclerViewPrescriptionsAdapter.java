@@ -44,10 +44,10 @@ public class RecyclerViewPrescriptionsAdapter {
         }
 
         public void bind( Prescription prescription, String key ){
-            mPrescriptionId.setText( "Prescription: " + prescription.getPrescriptionId() );
-            mRealizeTo.setText( "Realize to: " + prescription.getRealizeTo() );
-            mDoctorName.setText( "Set by: " + prescription.getDoctorName() );
-            mPrescriptionMeds.setText( "Medications:" );
+            mPrescriptionId.setText( mContext.getString( R.string.prescription ) + " " + prescription.getPrescriptionId() );
+            mRealizeTo.setText( mContext.getString( R.string.realize_to ) + " " + prescription.getRealizeTo() );
+            mDoctorName.setText( mContext.getString( R.string.set_by ) + " " + prescription.getDoctorName() );
+            mPrescriptionMeds.setText( mContext.getString( R.string.medications_list ) );
             List<PrescriptionMedications> medications = prescription.getPrescriptionMedications();
             for ( PrescriptionMedications med: medications )
             {

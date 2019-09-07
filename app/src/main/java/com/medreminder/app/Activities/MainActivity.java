@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         if ( fragment != null ) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace( R.id.fragment_to_slide, fragment )  //.replace(R.id.fragment_container, fragment)
+                    .replace( R.id.fragment_to_slide, fragment )
                     .commit();
             return true;
         }
@@ -193,11 +193,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             case R.id.navigation_home:
                 fragment = new HomeFragment();
                 break;
-
             case R.id.navigation_medications:
                 fragment = new MedicationsFragment();
                 break;
-
             case R.id.navigation_prescriptions:
                 fragment = new PrescriptionsFragment();
                 break;

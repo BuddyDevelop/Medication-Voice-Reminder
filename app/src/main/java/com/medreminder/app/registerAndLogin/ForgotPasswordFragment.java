@@ -81,9 +81,7 @@ public class ForgotPasswordFragment extends Fragment implements
                 // Call Submit button task
                 submitButtonTask();
                 break;
-
         }
-
     }
 
     private void submitButtonTask() {
@@ -99,14 +97,14 @@ public class ForgotPasswordFragment extends Fragment implements
         if ( emailString.equals( "" ) || emailString.length() == 0 )
 
             new CustomToast().showToast( getActivity(), view,
-                    "Please enter your email." );
+                    getString( R.string.enter_email_err ) );
 
             // Check if email id is valid or not
         else if ( !m.find() )
             new CustomToast().showToast( getActivity(), view,
-                    "Your email is invalid." );
+                    getString( R.string.invalid_email ) );
 
-            // Else submit email id and fetch password or do your stuff
+            // Else submit email id and fetch password
         else
             resetPasswordWithEmail( emailString );
     }
@@ -123,7 +121,7 @@ public class ForgotPasswordFragment extends Fragment implements
                         if( task.isSuccessful() )
                             Toast.makeText( getActivity(), R.string.forgot_pswd_send, Toast.LENGTH_SHORT ).show();
                         else
-                            new CustomToast().showToast( getActivity(), view, "Failed to send reset email." );
+                            new CustomToast().showToast( getActivity(), view, getString( R.string.reset_email_err ) );
                     }
                 } );
     }
