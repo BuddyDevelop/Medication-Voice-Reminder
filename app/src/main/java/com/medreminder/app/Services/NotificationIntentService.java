@@ -1,12 +1,14 @@
 package com.medreminder.app.Services;
 
 import android.app.IntentService;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -72,11 +74,20 @@ public class NotificationIntentService extends IntentService {
         if ( reminder.getMedName() == null || reminder.getMedDose() == null || reminder.getMedDoseUnit() == null )
             return;
 
+        final NotificationManager manager = ( NotificationManager ) this.getSystemService( Context.NOTIFICATION_SERVICE );
         notificationContentText = getString( R.string.take ) + " " + reminder.getMedName() + " " +
                 getString( R.string.notification_dosage ) + " " + reminder.getMedDose() +
                 " " + reminder.getMedDoseUnit();
 
-        final NotificationCompat.Builder builder = new NotificationCompat.Builder( this );
+
+        //channel id is required for android Oreo and higher
+        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ) {
+            NotificationChannel mChannel = new NotificationChannel(
+                    Integer.toString( alarmId ), "Notification channel name", NotificationManager.IMPORTANCE_HIGH );
+            manager.createNotificationChannel( mChannel );
+        }
+
+        final NotificationCompat.Builder builder = new NotificationCompat.Builder( this, Integer.toString( alarmId ) );
         builder.setContentTitle( reminder.getMedName() )
                 .setAutoCancel( true )
                 .setColor( getResources().getColor( R.color.colorPrimaryDark ) )
@@ -100,7 +111,7 @@ public class NotificationIntentService extends IntentService {
                 PendingIntent.FLAG_UPDATE_CURRENT );
         builder.setContentIntent( pendingIntent );
 
-        final NotificationManager manager = ( NotificationManager ) this.getSystemService( Context.NOTIFICATION_SERVICE );
+//      show notification
         manager.notify( alarmId, builder.build() );
 
 //        check if user want to have notifications spoken loud

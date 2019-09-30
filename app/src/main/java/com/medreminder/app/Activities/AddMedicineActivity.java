@@ -138,7 +138,7 @@ public class AddMedicineActivity extends AppCompatActivity {
 
         for ( String weekday : medDays ) {
             alarmId = ( int ) System.currentTimeMillis();
-            alarmIdString += Integer.toString( alarmId ) + " ";
+            alarmIdString += alarmId + " ";
             RemindersManager.addReminder( getApplicationContext(), alarmId, weekday, time );
         }
 
@@ -198,11 +198,11 @@ public class AddMedicineActivity extends AppCompatActivity {
 
                 //show msg and back to main view
                 Intent intent = new Intent( this, MainActivity.class );
-                Toast.makeText( this, "Medication has been edited", Toast.LENGTH_SHORT ).show();
+                Toast.makeText( this, R.string.medication_edited, Toast.LENGTH_SHORT ).show();
                 startActivity( intent );
                 finish();
             } else {
-                Toast.makeText( this, "There is a medication with such parameters", Toast.LENGTH_SHORT ).show();
+                Toast.makeText( this, R.string.medication_exists, Toast.LENGTH_SHORT ).show();
             }
         } catch ( Exception ex ) {
             ex.printStackTrace();
@@ -227,21 +227,21 @@ public class AddMedicineActivity extends AppCompatActivity {
                 rowInserted = dbManager.insert( stringMedName, time, stringMedQuantity, stringMedUnit, stringMedDays );
 
                 if ( rowInserted != -1 ) {
-                    Toast.makeText( this, "Medication " + stringMedName + " has been saved", Toast.LENGTH_SHORT ).show();
+                    Toast.makeText( this, getString( R.string.medication ) +  " " + stringMedName + " " + getString( R.string.medication_saved ), Toast.LENGTH_SHORT ).show();
                     //create notification reminders for this medication
                     addReminder( rowInserted, stringMedDays, time );
                     Intent intent = new Intent( this, MainActivity.class );
                     startActivity( intent );
                     finish();
                 } else
-                    Toast.makeText( this, "There is reminder with such name and remind time", Toast.LENGTH_LONG ).show();
+                    Toast.makeText( this, R.string.medication_exists, Toast.LENGTH_LONG ).show();
 
                 dbManager.close();
             }
         } catch ( Exception ex ) {
             Log.d( "Insert err ", ex.toString() );
             ex.printStackTrace();
-            Toast.makeText( this, "Something went wrong in saving", Toast.LENGTH_SHORT ).show();
+            Toast.makeText( this, R.string.medication_unidentified_err, Toast.LENGTH_SHORT ).show();
         }
     }
 

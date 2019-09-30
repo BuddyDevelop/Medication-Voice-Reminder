@@ -96,4 +96,9 @@
     <string name="reset_email_err">Nie udało się wysłać emaila.</string>
     <string name="sth_went_wrong_err">Coś poszło nie tak podczas rejestracji, sprawdź połączenie z internetem.</string>
     <string name="terms_err">Zaakceptuj regulamin.</string>
+    <string name="medication">Lekarstwo</string>
+    <string name="medication_edited">Lekarstwo zostało edytowane</string>
+    <string name="medication_exists">Istnieje już lekarstwo o podanych parametrach</string>
+    <string name="medication_saved">zostało zapisane pomyślnie</string>
+    <string name="medication_unidentified_err">Coś poszło nie tak podczas zapisu lekarstwa</string>
 </resources>

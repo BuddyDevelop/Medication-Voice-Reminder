@@ -102,6 +102,12 @@
     <string name="set_by">Set by:</string>
     <string name="medications_list">Medications:</string>
 
+    <!--AddMedicationActivity toast msgs-->
+    <string name="medication">Medication</string>
+    <string name="medication_saved">has been saved</string>
+    <string name="medication_edited">Medication has been edited</string>
+    <string name="medication_exists">There is a medication with such parameters</string>
+    <string name="medication_unidentified_err">Something went wrong in saving</string>
 
     <string name="capsule">capsule(s)</string>
     <string name="cream">cream(s)</string>

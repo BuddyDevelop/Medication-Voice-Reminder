@@ -38,33 +38,39 @@ public class TTS extends Service implements TextToSpeech.OnInitListener {
     @Override
     public void onInit( int status ) {
         if ( status == TextToSpeech.SUCCESS ) {
-            int result = -1;
-
-            //if user is using polish lang on device set tts lang to polish
-            if( Locale.getDefault().getDisplayLanguage().equals( "polski" ) )
-                result = mTts.setLanguage( new Locale( "pl_PL" ) );
-            else
-                result = mTts.setLanguage( Locale.US );
-
-
-            if ( result != TextToSpeech.LANG_MISSING_DATA && result != TextToSpeech.LANG_NOT_SUPPORTED ) {
-                Log.d( "Init", "Success" );
-
-                // speak all notifications which have same reminder time and day
-                if( spokenText == null || spokenText.isEmpty() )
-                    return;
-
-                if( mTts.isSpeaking() )
-                    return;
-
-                for ( String text : spokenText ) {
-                    mTts.speak( text, TextToSpeech.QUEUE_ADD, null, null );
-                    mTts.playSilentUtterance( 2000, TextToSpeech.QUEUE_ADD, null );
-                    mTts.speak( text, TextToSpeech.QUEUE_ADD, null, null );
-                }
-            }
+            speechTask();
         } else {
+            mTts = new TextToSpeech( this, this );
+            speechTask();
             Log.d( getClass().getSimpleName(), " Could not initialize TextToSpeech" );
+        }
+    }
+
+    private void speechTask(){
+        int result = -1;
+
+        //if user is using polish lang on device set tts lang to polish
+        if( Locale.getDefault().getDisplayLanguage().equals( "polski" ) )
+            result = mTts.setLanguage( new Locale( "pl_PL" ) );
+        else
+            result = mTts.setLanguage( Locale.US );
+
+
+        if ( result != TextToSpeech.LANG_MISSING_DATA && result != TextToSpeech.LANG_NOT_SUPPORTED ) {
+            Log.d( "Init", "Success" );
+
+            // speak all notifications which have same reminder time and day
+            if( spokenText == null || spokenText.isEmpty() )
+                return;
+
+            if( mTts.isSpeaking() )
+                return;
+
+            for ( String text : spokenText ) {
+                mTts.speak( text, TextToSpeech.QUEUE_ADD, null, null );
+                mTts.playSilentUtterance( 2000, TextToSpeech.QUEUE_ADD, null );
+                mTts.speak( text, TextToSpeech.QUEUE_ADD, null, null );
+            }
         }
     }
 
