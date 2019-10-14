@@ -11,12 +11,12 @@ import com.medreminder.app.Models.Reminder;
 import com.medreminder.app.R;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Adapter to show all medication reminders
  */
 public class MedReminderAdapter extends ArrayAdapter {
-
     private ArrayList<Reminder> reminders;
 
     public MedReminderAdapter( Context context, int resource, ArrayList<Reminder> list ) {
@@ -38,7 +38,7 @@ public class MedReminderAdapter extends ArrayAdapter {
         return reminders.get( position );
     }
 
-    public ArrayList<Reminder> getData(){
+    public ArrayList<Reminder> getData() {
         return reminders;
     }
 
@@ -63,10 +63,39 @@ public class MedReminderAdapter extends ArrayAdapter {
 
         Reminder reminder = ( Reminder ) this.getItem( position );
         layoutHandler.medName.setText( reminder.getMedName() );
-        layoutHandler.reminderDays.setText( reminder.getReminderDays() );
+        //if device's lang is polish then change day of week names to polish,
+        if ( Locale.getDefault().getDisplayLanguage().equals( "polski" ) ) {
+            layoutHandler.reminderDays.setText( polishReminderDaysNames( reminder.getReminderDays() ) );
+        } else {
+            layoutHandler.reminderDays.setText( reminder.getReminderDays() );
+        }
         layoutHandler.reminderTime.setText( reminder.getReminderTime() );
 
         return mview;
+    }
+
+    //polish names of days
+    public String polishReminderDaysNames( String reminderDays ) {
+        String reminderDaysInPolish = "";
+
+        if ( reminderDays.contains( "SUNDAY" ) )
+            reminderDaysInPolish += "Niedziela ";
+        if ( reminderDays.contains( "MONDAY" ) )
+            reminderDaysInPolish += "Poniedziałek ";
+        if ( reminderDays.contains( "TUESDAY" ) )
+            reminderDaysInPolish += "Wtorek ";
+        if ( reminderDays.contains( "WEDNESDAY" ) )
+            reminderDaysInPolish += "Środa ";
+        if ( reminderDays.contains( "THURSDAY" ) )
+            reminderDaysInPolish += "Czwartek ";
+        if ( reminderDays.contains( "FRIDAY" ) )
+            reminderDaysInPolish += "Piątek ";
+        if ( reminderDays.contains( "SATURDAY" ) )
+            reminderDaysInPolish += "Sobota ";
+        if ( reminderDays.contains( "Daily" ) )
+            reminderDaysInPolish += "Codziennie";
+
+        return reminderDaysInPolish;
     }
 
 }
