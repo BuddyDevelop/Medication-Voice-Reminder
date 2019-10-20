@@ -8,7 +8,7 @@ Sign-up             |  Login
   <img src="https://user-images.githubusercontent.com/48919056/67162777-d7403080-f367-11e9-89e9-5bd8066a2062.png"  alt="signIn view" width="350" height="600px"/> | <img src="https://user-images.githubusercontent.com/48919056/67162614-ca224200-f365-11e9-9d15-2761305c3375.png" alt="Login view" width="350" height="600px"/>
 
 &nbsp;
-### Main functionality
+## Functionality
 ---
 #### Reminders are triggered at time and day of week user set. At the time of alarm vibrations go on, notification with reminder's parameters show up and content of notification is read aloud by text-to-speech engine.
 
