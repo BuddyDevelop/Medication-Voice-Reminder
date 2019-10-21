@@ -95,7 +95,7 @@ public class NotificationIntentService extends IntentService {
                         .bigText( notificationContentText ) )
                 .setContentText( notificationContentText )
                 .setPriority( NotificationCompat.PRIORITY_HIGH )
-                .setSmallIcon( R.mipmap.ic_notification_filled_round );
+                .setSmallIcon( R.drawable.ic_notifications_black_24dp );
 
         //Vibration
         builder.setVibrate( new long[]{ 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000 } );

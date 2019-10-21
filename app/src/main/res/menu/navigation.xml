@@ -8,7 +8,7 @@
 
     <item
         android:id="@+id/navigation_medications"
-        android:icon="@drawable/ic_pills_white"
+        android:icon="@drawable/pills"
         android:title="@string/bottom_nav_medications" />
 
     <item

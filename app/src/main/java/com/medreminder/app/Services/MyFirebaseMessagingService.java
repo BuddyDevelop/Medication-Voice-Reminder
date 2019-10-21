@@ -1,5 +1,6 @@
 package com.medreminder.app.Services;
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -7,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -33,6 +35,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
@@ -161,7 +164,21 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     //crate notification
     private void pushNotification( String notificationTitle, String notificationContent ) {
-        final NotificationCompat.Builder builder = new NotificationCompat.Builder( this );
+        String uniqueNumber = Long.toString( System.currentTimeMillis() );
+
+        if ( Locale.getDefault().getDisplayLanguage().equals( "polski" ) ) {
+            notificationTitle = notificationTitle.replace( "New prescription", "Nowa recepta" );
+            notificationTitle = notificationTitle.replace( "New medication", "Nowy lek" );
+        }
+
+        NotificationManager notificationManager = ( NotificationManager ) getSystemService( Context.NOTIFICATION_SERVICE );
+        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ) {
+            NotificationChannel mChannel = new NotificationChannel(
+                    uniqueNumber, "Notification channel name", NotificationManager.IMPORTANCE_HIGH );
+            notificationManager.createNotificationChannel( mChannel );
+        }
+
+        final NotificationCompat.Builder builder = new NotificationCompat.Builder( this, uniqueNumber );
         builder.setContentTitle( notificationTitle )
                 .setAutoCancel( true )
                 .setColor( getResources().getColor( R.color.colorPrimaryDark ) )
@@ -170,7 +187,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         .bigText( notificationContent ) )
                 .setContentText( notificationContent )
                 .setPriority( NotificationCompat.PRIORITY_HIGH )
-                .setSmallIcon( R.mipmap.ic_notification_filled_round );
+                .setSmallIcon( R.drawable.ic_notifications_black_24dp );
 
         //LED
         builder.setLights( Color.BLUE, 5000, 5000 );
@@ -184,7 +201,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 PendingIntent.FLAG_UPDATE_CURRENT );
         builder.setContentIntent( pendingIntent );
 
-        NotificationManager notificationManager = ( NotificationManager ) getSystemService( Context.NOTIFICATION_SERVICE );
         notificationManager.notify( alarmId, builder.build() );
     }
 
