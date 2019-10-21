@@ -1,5 +1,5 @@
-# Medication Voice Reminder
-#### An application used to remind (blind and deaf people) about timely drug use in accordance with the appropriate recommendations of doctors.
+# Medication Voice Reminder <img align="center" src="https://user-images.githubusercontent.com/48919056/67191661-48c4c100-f3f2-11e9-8bb7-85647d090f99.png" alt="ic_notifications_filled"/>
+#### An application used to remind (blind and deaf people) about timely drug use in accordance with the appropriate recommendations of doctors. 
 
 
 ### Account is required to use application
@@ -26,10 +26,10 @@ View with prescriptions prescribed            |  View with medications prescribe
 
 &nbsp;
 
-### New prescription and medication presribed
+### New prescription and medication prescribed
 ---
 
-#### When doctor prescribe medication or presription and user has connection to internet notification will pop up and content of the notification will be read aloud by text-to-speech engine.
+#### When doctor prescribe medication or presription and user has connection to internet notification will pop up and content of the notification will be read aloud by text-to-speech engine. App for doctors is available <a href="https://github.com/BuddyDevelop/medManager">here.</a>
 
 <p align="middle">
   <img src="https://user-images.githubusercontent.com/48919056/67166804-1b94f600-f393-11e9-9605-04e5203425db.png" alt="new receipt&med" width="350" height="700px"/>
