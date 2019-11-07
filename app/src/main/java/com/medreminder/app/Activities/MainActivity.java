@@ -128,12 +128,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             public void onClick( View view ) {
                 try {
                     //on logout click delete app token so this device does not receive notifications from FCM
+                    //and perform logout
                     MyFirebaseMessagingService.deleteToken( getApplicationContext() );
-//                    Log.e( "LogoutAction:", "Logout try" );
-//                    FirebaseAuth.getInstance().signOut();
-//                    Intent intent = new Intent( getApplicationContext(), RegisterActivity.class );
-//                    startActivity( intent );
-//                    finish();  // because we do not want come here on back pressed
                 } catch ( Exception e ) {
                     Log.e( "LogoutAction:", "Logout failure" );
                     e.printStackTrace();

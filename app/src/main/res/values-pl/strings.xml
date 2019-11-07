@@ -29,8 +29,8 @@
     <string name="full_name">Imię i nazwisko</string>
     <string name="general_settings">Ogólne</string>
     <string name="hide_pswd">Ukryj hasło</string>
-    <string name="login">LOGIN</string>
-    <string name="logout">Wyloguj</string>
+    <string name="login">Zaloguj się</string>
+    <string name="logout">Wyloguj się</string>
     <string name="med_name_hint">Nazwa leku</string>
     <string name="medication_days">Zaplanuj</string>
     <string name="medication_name">Nazwa leku</string>

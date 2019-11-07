@@ -126,6 +126,11 @@
             android:textColorHint="@color/ic_white_background"
             android:textSize="16sp" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/ic_white_background" />
+
         <CheckBox
             android:id="@+id/terms_conditions"
             android:layout_width="wrap_content"
